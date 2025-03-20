@@ -6,7 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use App\Models\Profile; // Ensure the Profile model exists in the App\Models namespace
+use App\Models\Perfil;
 
 class User extends Authenticatable
 {
@@ -47,8 +47,8 @@ class User extends Authenticatable
         ];
     }
 
-    public function profile()
+    public function perfil()
     {
-        return $this->hasOne(\App\Models\Profile::class);
+        return $this->hasOne(Perfil::class);
     }
 }

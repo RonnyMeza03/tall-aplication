@@ -26,11 +26,14 @@
                     </div>
                 </header>
             @endif
-
-            <!-- Page Content -->
-            <main>
-                {{ $slot }}
-            </main>
+            <div class="flex h-screen bg-gray-800 dark:bg-gray-900">
+                <livewire:layout.sidebar />
+                <main class="flex-1 overflow-y-auto transition duration-500 ease-in-out bg-gray-100 dark:bg-gray-900">
+                    <div>
+                        {{ $slot }}
+                    </div>
+                </main>
+            </div>
         </div>
     </body>
 </html>

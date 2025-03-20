@@ -20,8 +20,8 @@ new class extends Component
     {
         $this->name = Auth::user()->name;
         $this->email = Auth::user()->email;
-        $this->phone = Auth::user()->profile()->phone;
-        $this->role = Auth::user()->profile()->role;
+        $this->phone = Auth::user()->perfil->phone;
+        $this->role = Auth::user()->perfil->role;
     }
 
     /**
@@ -29,11 +29,12 @@ new class extends Component
      */
     public function updateProfileInformation(): void
     {
-        $user = Auth::user();
+        $user = Auth::user()->load('perfil');
 
         $validated = $this->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique(User::class)->ignore($user->id)],
+            'phone' => ['required', 'string', 'max:255'],
         ]);
 
         $user->fill($validated);
@@ -43,6 +44,10 @@ new class extends Component
         }
 
         $user->save();
+
+        $user->perfil->phone = $this->phone;
+
+        $user->perfil->save();
 
         $this->dispatch('profile-updated', name: $user->name);
     }

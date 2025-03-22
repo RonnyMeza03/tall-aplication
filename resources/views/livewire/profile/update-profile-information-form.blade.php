@@ -12,6 +12,8 @@ new class extends Component
     public string $email = '';
     public string $phone = '';
     public string $role = '';
+    public string $country = '';
+
 
     /**
      * Mount the component.
@@ -22,6 +24,7 @@ new class extends Component
         $this->email = Auth::user()->email;
         $this->phone = Auth::user()->perfil->phone;
         $this->role = Auth::user()->perfil->role;
+        $this->country = Auth::user()->country->name ?? '';
     }
 
     /**
@@ -117,6 +120,11 @@ new class extends Component
             <x-input-label for="phone" :value="__('phone')" />
             <x-text-input wire:model="phone" id="phone" name="phone" type="text" class="mt-1 block w-full" required autofocus autocomplete="phone" />
             <x-input-error class="mt-2" :messages="$errors->get('phone')" />
+        </div>
+
+        <div>
+            <x-input-label for="country" :value="__('country')" />
+            <p class="text-white">{{$this->country}}</p>
         </div>
 
         <div class="flex items-center gap-4">

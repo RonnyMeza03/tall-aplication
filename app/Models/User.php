@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+// Ensure the Perfil class exists in the App\Models namespace
 use App\Models\Perfil;
 
 class User extends Authenticatable
@@ -22,6 +23,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'countryId'
     ];
 
     /**
@@ -50,5 +52,20 @@ class User extends Authenticatable
     public function perfil()
     {
         return $this->hasOne(Perfil::class);
+    }
+
+    public function company()
+    {
+        return $this->belongsToMany(Company::class, 'user_company');
+    }
+
+    public function applies()
+    {
+        return $this->belongsToMany(JobOffer::class, 'user_applies');
+    }
+
+    public function country()
+    {
+        return $this->belongsTo(Country::class, 'countryId');
     }
 }

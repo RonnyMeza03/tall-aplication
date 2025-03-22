@@ -11,6 +11,7 @@ class Perfil extends Model
 
     protected $fillable = [
         'user_id',
+        'roleId',
         'phone',
         'role'
     ];
@@ -18,5 +19,10 @@ class Perfil extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
     }
 }

@@ -1,7 +1,7 @@
 <aside class="w-64 bg-gray-800 text-white p-4 flex flex-col h-screen sticky top-0">
     <!-- Logo/Brand -->
     <div class="mb-10">
-      <h1 class="text-2xl font-bold">Campus</h1>
+      <h1 class="text-2xl font-bold">JobFinder</h1>
     </div>
     
     <!-- Navigation -->
@@ -16,19 +16,19 @@
           </a>
         </li>
         <li>
-          <a href="#" class="flex items-center p-2 rounded hover:bg-gray-700 transition">
+          <a href="{{route('MyTeam')}}" class="flex items-center p-2 rounded hover:bg-gray-700 transition">
             <svg class="w-5 h-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
             </svg>
-            Perfil
+            Mi equipo
           </a>
         </li>
         <li>
-          <a href="#" class="flex items-center p-2 rounded hover:bg-gray-700 transition">
+          <a href="{{route('MyOffers')}}" class="flex items-center p-2 rounded hover:bg-gray-700 transition">
             <svg class="w-5 h-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
             </svg>
-            Proyectos
+            Empleos
           </a>
         </li>
         <li>
@@ -37,14 +37,6 @@
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
             </svg>
             Calendario
-          </a>
-        </li>
-        <li>
-          <a href="#" class="flex items-center p-2 rounded hover:bg-gray-700 transition">
-            <svg class="w-5 h-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
-            </svg>
-            Mensajes
           </a>
         </li>
         <li>

@@ -124,7 +124,7 @@ new class extends Component
 
         <div>
             <x-input-label for="country" :value="__('country')" />
-            <p class="text-white">{{$this->country}}</p>
+            <p class="text-gray-300">{{$this->country}}</p>
         </div>
 
         <div class="flex items-center gap-4">

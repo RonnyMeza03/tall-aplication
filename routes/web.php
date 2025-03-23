@@ -3,7 +3,8 @@
 use App\Http\Controllers\JobOfferController;
 use Illuminate\Support\Facades\Route;
 
-Route::view('/', 'welcome');
+Route::get('/', [JobOfferController::class, 'index'])
+    ->name('job-offers.index');
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])

@@ -1,253 +1,259 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Portal de Empleos</title>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
+    <title>Portal de Empleos</title>
 
-        <!-- Styles -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
-    </head>
-    <body class="antialiased font-sans">
-        <div class="bg-gray-50 text-gray-800 dark:bg-gray-900 dark:text-white">
-            <div class="relative min-h-screen flex flex-col">
-                <!-- Barra de navegación -->
-                <header class="grid grid-cols-2 items-center gap-2 py-6 lg:grid-cols-3 max-w-7xl mx-auto px-6 lg:px-8">
-                    <div class="flex lg:justify-center lg:col-start-2">
-                        <h1 class="text-2xl font-bold text-blue-600 dark:text-blue-400">JobFinder</h1>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
+
+    <!-- Styles -->
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+</head>
+
+<body class="antialiased font-sans">
+    <div class="bg-gray-50 text-gray-800 dark:bg-gray-900 dark:text-white">
+        <div class="relative min-h-screen flex flex-col">
+            <!-- Barra de navegación -->
+            <header class="grid grid-cols-2 items-center gap-2 py-6 lg:grid-cols-3 max-w-7xl mx-auto px-6 lg:px-8">
+                <div class="flex lg:justify-center lg:col-start-2">
+                    <h1 class="text-2xl font-bold text-blue-600 dark:text-blue-400">JobFinder</h1>
+                </div>
+                @if (Route::has('login'))
+                    <div class="flex justify-end items-center space-x-4">
+                        @auth
+                            <a href="{{ url('/dashboard') }}"
+                                class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">Dashboard</a>
+                        @else
+                            <a href="{{ route('login') }}"
+                                class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">Iniciar
+                                sesión</a>
+                            @if (Route::has('register'))
+                                <a href="{{ route('register') }}"
+                                    class="px-4 py-2 bg-blue-600 dark:bg-blue-500 text-white rounded-md hover:bg-blue-700 dark:hover:bg-blue-600">Registrarse</a>
+                            @endif
+                        @endauth
                     </div>
-                    @if (Route::has('login'))
-                        <div class="flex justify-end items-center space-x-4">
-                            @auth
-                                <a href="{{ url('/dashboard') }}" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">Dashboard</a>
-                            @else
-                                <a href="{{ route('login') }}" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">Iniciar sesión</a>
-                                @if (Route::has('register'))
-                                    <a href="{{ route('register') }}" class="px-4 py-2 bg-blue-600 dark:bg-blue-500 text-white rounded-md hover:bg-blue-700 dark:hover:bg-blue-600">Registrarse</a>
-                                @endif
-                            @endauth
-                        </div>
-                    @endif
-                </header>
+                @endif
+            </header>
 
-                <!-- Contenido principal -->
-                <main class="flex-grow">
-                    <!-- Hero Section -->
-                    <section class="relative bg-gradient-to-r from-blue-600 to-blue-800 dark:from-blue-800 dark:to-blue-900">
-                        <div class="max-w-7xl mx-auto px-6 py-16 lg:py-24">
-                            <div class="max-w-3xl">
-                                <h2 class="text-4xl font-extrabold text-white sm:text-5xl">
-                                    Encuentra el trabajo de tus sueños
-                                </h2>
-                                <p class="mt-6 text-xl text-blue-100">
-                                    Miles de ofertas de empleo te esperan. Conectamos a los mejores talentos con las empresas más innovadoras.
-                                </p>
-                                <div class="mt-8">
-                                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4">
-                                        <form class="flex flex-col md:flex-row gap-4">
-                                            <div class="flex-grow">
-                                                <input type="text" name="search" placeholder="¿Qué trabajo estás buscando?" class="w-full px-4 py-3 rounded-md border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                            </div>
-                                            <div class="flex-grow">
-                                                <input type="text" name="location" placeholder="Ubicación" class="w-full px-4 py-3 rounded-md border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                            </div>
-                                            <button type="submit" class="px-6 py-3 bg-blue-600 dark:bg-blue-500 text-white rounded-md hover:bg-blue-700 dark:hover:bg-blue-600 font-medium">
-                                                Buscar
-                                            </button>
-                                        </form>
-                                    </div>
+            <!-- Contenido principal -->
+            <main class="flex-grow">
+                <!-- Hero Section -->
+                <section
+                    class="relative bg-gradient-to-r from-blue-600 to-blue-800 dark:from-blue-800 dark:to-blue-900">
+                    <div class="max-w-7xl mx-auto px-6 py-16 lg:py-24">
+                        <div class="max-w-3xl">
+                            <h2 class="text-4xl font-extrabold text-white sm:text-5xl">
+                                Encuentra el trabajo de tus sueños
+                            </h2>
+                            <p class="mt-6 text-xl text-blue-100">
+                                Miles de ofertas de empleo te esperan. Conectamos a los mejores talentos con las
+                                empresas más innovadoras.
+                            </p>
+                            <div class="mt-8">
+                                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4">
+                                    <form class="flex flex-col md:flex-row gap-4">
+                                        <div class="flex-grow">
+                                            <input type="text" name="search"
+                                                placeholder="¿Qué trabajo estás buscando?"
+                                                class="w-full px-4 py-3 rounded-md border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                        </div>
+                                        <div class="flex-grow">
+                                            <input type="text" name="location" placeholder="Ubicación"
+                                                class="w-full px-4 py-3 rounded-md border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                        </div>
+                                        <button type="submit"
+                                            class="px-6 py-3 bg-blue-600 dark:bg-blue-500 text-white rounded-md hover:bg-blue-700 dark:hover:bg-blue-600 font-medium">
+                                            Buscar
+                                        </button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
-                    </section>
+                    </div>
+                </section>
 
-                    <!-- Categorías de empleo -->
-                    <section class="max-w-7xl mx-auto px-6 py-12">
-                        <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-8">Categorías populares</h3>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                            @php
+                <!-- Categorías de empleo -->
+                <section class="max-w-7xl mx-auto px-6 py-12">
+                    <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-8">Categorías populares</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                        @php
                             $categories = [
                                 [
-                                    'icon' => 'M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z',
+                                    'icon' =>
+                                        'M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z',
                                     'name' => 'Desarrollo Web',
                                     'count' => 357,
-                                    'color' => 'blue'
+                                    'color' => 'blue',
                                 ],
                                 [
-                                    'icon' => 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z',
+                                    'icon' =>
+                                        'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z',
                                     'name' => 'Marketing Digital',
                                     'count' => 289,
-                                    'color' => 'green'
+                                    'color' => 'green',
                                 ],
                                 [
-                                    'icon' => 'M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4',
+                                    'icon' =>
+                                        'M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4',
                                     'name' => 'Diseño UX/UI',
                                     'count' => 215,
-                                    'color' => 'purple'
+                                    'color' => 'purple',
                                 ],
                                 [
-                                    'icon' => 'M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z',
+                                    'icon' =>
+                                        'M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z',
                                     'name' => 'Atención al Cliente',
                                     'count' => 183,
-                                    'color' => 'red'
-                                ]
+                                    'color' => 'red',
+                                ],
                             ];
-                            @endphp
+                        @endphp
 
-                            @foreach ($categories as $category)
-                            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-300">
-                                <div class="w-12 h-12 bg-{{ $category['color'] }}-100 dark:bg-{{ $category['color'] }}-900 rounded-lg flex items-center justify-center mb-4">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-{{ $category['color'] }}-600 dark:text-{{ $category['color'] }}-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="{{ $category['icon'] }}" />
+                        @foreach ($categories as $category)
+                            <div
+                                class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-300">
+                                <div
+                                    class="w-12 h-12 bg-{{ $category['color'] }}-100 dark:bg-{{ $category['color'] }}-900 rounded-lg flex items-center justify-center mb-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                        class="h-6 w-6 text-{{ $category['color'] }}-600 dark:text-{{ $category['color'] }}-400"
+                                        fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="{{ $category['icon'] }}" />
                                     </svg>
                                 </div>
-                                <h4 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">{{ $category['name'] }}</h4>
-                                <p class="text-gray-600 dark:text-gray-300 mb-4">{{ $category['count'] }} empleos disponibles</p>
-                                <a href="#" class="text-{{ $category['color'] }}-600 dark:text-{{ $category['color'] }}-400 hover:text-{{ $category['color'] }}-800 dark:hover:text-{{ $category['color'] }}-300 font-medium">Ver empleos →</a>
+                                <h4 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                                    {{ $category['name'] }}</h4>
+                                <p class="text-gray-600 dark:text-gray-300 mb-4">{{ $category['count'] }} empleos
+                                    disponibles</p>
+                                <a href="#"
+                                    class="text-{{ $category['color'] }}-600 dark:text-{{ $category['color'] }}-400 hover:text-{{ $category['color'] }}-800 dark:hover:text-{{ $category['color'] }}-300 font-medium">Ver
+                                    empleos →</a>
                             </div>
-                            @endforeach
-                        </div>
-                    </section>
+                        @endforeach
+                    </div>
+                </section>
 
-                    <!-- Empleos destacados -->
-                    <section class="bg-gray-100 dark:bg-gray-800">
-                        <div class="max-w-7xl mx-auto px-6 py-12">
-                            <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-8">Empleos destacados</h3>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                @php
-                                $jobs = [
-                                    [
-                                        'title' => 'Desarrollador Full Stack',
-                                        'company' => 'MegaSoft Solutions',
-                                        'location' => 'Madrid, España',
-                                        'salary' => '€45,000 - €60,000',
-                                        'posted' => 'Hace 2 días',
-                                        'skills' => ['React', 'Node.js', 'MongoDB'],
-                                        'color' => 'blue',
-                                        'logo' => 'MS'
-                                    ],
-                                    [
-                                        'title' => 'Especialista en Marketing Digital',
-                                        'company' => 'TechConnect',
-                                        'location' => 'Barcelona, España',
-                                        'salary' => '€35,000 - €45,000',
-                                        'posted' => 'Hace 3 días',
-                                        'skills' => ['SEO', 'Google Ads', 'Analytics'],
-                                        'color' => 'green',
-                                        'logo' => 'TC'
-                                    ],
-                                    [
-                                        'title' => 'Diseñador de Experiencia de Usuario',
-                                        'company' => 'InnovaDesign',
-                                        'location' => 'Valencia, España',
-                                        'salary' => '€40,000 - €55,000',
-                                        'posted' => 'Hace 1 día',
-                                        'skills' => ['Figma', 'Sketch', 'Adobe XD'],
-                                        'color' => 'purple',
-                                        'logo' => 'ID'
-                                    ],
-                                    [
-                                        'title' => 'Ingeniero DevOps Senior',
-                                        'company' => 'Global Systems',
-                                        'location' => 'Remoto',
-                                        'salary' => '€60,000 - €80,000',
-                                        'posted' => 'Hace 5 días',
-                                        'skills' => ['AWS', 'Docker', 'Kubernetes'],
-                                        'color' => 'red',
-                                        'logo' => 'GS'
-                                    ]
-                                ];
-                                @endphp
-
-                                @foreach ($jobs as $job)
-                                <div class="bg-white dark:bg-gray-700 rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-300">
+                <!-- Empleos destacados -->
+                <section class="bg-gray-100 dark:bg-gray-800">
+                    <div class="max-w-7xl mx-auto px-6 py-12">
+                        <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-8">Empleos destacados</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            @forelse ($jobsOffers as $job)
+                                <div
+                                    class="bg-white dark:bg-gray-700 rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-300">
                                     <div class="flex items-start">
-                                        <div class="flex-shrink-0 h-12 w-12 bg-{{ $job['color'] }}-200 dark:bg-{{ $job['color'] }}-800 rounded-md flex items-center justify-center">
-                                            <span class="text-{{ $job['color'] }}-700 dark:text-{{ $job['color'] }}-300 font-bold">{{ $job['logo'] }}</span>
+                                        <div
+                                            class="flex-shrink-0 h-12 w-12 bg-blue-200 dark:bg-blue-800 rounded-md flex items-center justify-center">
+                                            <span
+                                                class="text-blue-700 dark:text-blue-300 font-bold">{{ substr($job->jobTitle, 0, 2) }}</span>
                                         </div>
                                         <div class="ml-4 flex-grow">
-                                            <h4 class="text-lg font-semibold text-gray-900 dark:text-white mb-1">{{ $job['title'] }}</h4>
-                                            <p class="text-gray-700 dark:text-gray-300 mb-2">{{ $job['company'] }} • {{ $job['location'] }}</p>
+                                            <h4 class="text-lg font-semibold text-gray-900 dark:text-white mb-1">
+                                                {{ $job->jobTitle }}</h4>
+                                            <p class="text-gray-700 dark:text-gray-300 mb-2">
+                                                {{ $job->company->name ?? 'Empresa' }} • {{ $job->country->name ?? 'Remoto' }}
+                                            </p>
                                             <div class="flex flex-wrap gap-2 mb-3">
-                                                @foreach ($job['skills'] as $skill)
-                                                <span class="px-2 py-1 text-xs bg-{{ $job['color'] }}-100 dark:bg-{{ $job['color'] }}-900 text-{{ $job['color'] }}-800 dark:text-{{ $job['color'] }}-200 rounded-full">{{ $skill }}</span>
-                                                @endforeach
+                                                @if (isset($job->skills))
+                                                    @foreach (explode(',', $job->skills) as $skill)
+                                                        <span
+                                                            class="px-2 py-1 text-xs bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full">{{ trim($skill) }}</span>
+                                                    @endforeach
+                                                @endif
                                             </div>
                                             <div class="flex justify-between items-center">
-                                                <span class="text-gray-600 dark:text-gray-300">{{ $job['salary'] }}</span>
-                                                <span class="text-sm text-gray-500 dark:text-gray-400">{{ $job['posted'] }}</span>
+                                                <span
+                                                    class="text-gray-600 dark:text-gray-300">{{ $job->minSalary ?? 'Salario a convenir' }} {{$job->currency}} - {{$job->maxSalary}} {{$job->currency}}</span>
+                                                <span
+                                                    class="text-sm text-gray-500 dark:text-gray-400">{{ $job->created_at->diffForHumans() }}</span>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                @endforeach
-                            </div>
-                            <div class="mt-10 text-center">
-                                <a href="#" class="inline-block px-6 py-3 bg-blue-600 dark:bg-blue-500 text-white rounded-md hover:bg-blue-700 dark:hover:bg-blue-600 font-medium">Ver todos los empleos</a>
-                            </div>
-                        </div>
-                    </section>
-
-                    <!-- CTA Empresas -->
-                    <section class="bg-blue-600 dark:bg-blue-800">
-                        <div class="max-w-7xl mx-auto px-6 py-12">
-                            <div class="md:flex md:items-center md:justify-between">
-                                <div class="md:max-w-2xl">
-                                    <h3 class="text-2xl font-bold text-white mb-4">¿Eres una empresa buscando talento?</h3>
-                                    <p class="text-blue-100 mb-6">Publica tus ofertas de empleo y encuentra a los mejores profesionales para tu equipo. Miles de candidatos cualificados esperan tu oferta.</p>
+                            @empty
+                                <div class="col-span-2 text-center py-8">
+                                    <p class="text-gray-600 dark:text-gray-300">No hay ofertas de trabajo disponibles en
+                                        este momento.</p>
                                 </div>
-                                <div class="mt-6 md:mt-0">
-                                    <a href="#" class="inline-block px-6 py-3 bg-white text-blue-600 rounded-md hover:bg-gray-100 font-medium">Publicar oferta</a>
-                                </div>
-                            </div>
+                            @endforelse
                         </div>
-                    </section>
-                </main>
-
-                <!-- Footer -->
-                <footer class="py-16 text-center text-sm text-black dark:text-white/70 bg-gray-800 dark:bg-gray-900">
-                    <div class="max-w-7xl mx-auto px-6">
-                        <div class="grid grid-cols-1 md:grid-cols-4 gap-8 text-left mb-10">
-                            <div>
-                                <h4 class="text-white text-lg font-semibold mb-4">JobFinder</h4>
-                                <p class="text-gray-400">Conectando talentos con oportunidades desde 2023.</p>
-                            </div>
-                            <div>
-                                <h5 class="text-white text-md font-semibold mb-4">Para candidatos</h5>
-                                <ul class="space-y-2">
-                                    <li><a href="#" class="text-gray-400 hover:text-white">Buscar empleos</a></li>
-                                    <li><a href="#" class="text-gray-400 hover:text-white">Crear perfil</a></li>
-                                    <li><a href="#" class="text-gray-400 hover:text-white">Alertas de empleo</a></li>
-                                </ul>
-                            </div>
-                            <div>
-                                <h5 class="text-white text-md font-semibold mb-4">Para empresas</h5>
-                                <ul class="space-y-2">
-                                    <li><a href="#" class="text-gray-400 hover:text-white">Publicar empleo</a></li>
-                                    <li><a href="#" class="text-gray-400 hover:text-white">Búsqueda de candidatos</a></li>
-                                    <li><a href="#" class="text-gray-400 hover:text-white">Soluciones de reclutamiento</a></li>
-                                </ul>
-                            </div>
-                            <div>
-                                <h5 class="text-white text-md font-semibold mb-4">Contáctanos</h5>
-                                <ul class="space-y-2">
-                                    <li><a href="#" class="text-gray-400 hover:text-white">Soporte</a></li>
-                                    <li><a href="#" class="text-gray-400 hover:text-white">Acerca de</a></li>
-                                    <li><a href="#" class="text-gray-400 hover:text-white">Blog</a></li>
-                                </ul>
-                            </div>
+                        <div class="mt-10 text-center">
+                            <a href="#"
+                                class="inline-block px-6 py-3 bg-blue-600 dark:bg-blue-500 text-white rounded-md hover:bg-blue-700 dark:hover:bg-blue-600 font-medium">Ver
+                                todos los empleos</a>
                         </div>
-                        Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }})
                     </div>
-                </footer>
-            </div>
+                </section>
+
+                <!-- CTA Empresas -->
+                <section class="bg-blue-600 dark:bg-blue-800">
+                    <div class="max-w-7xl mx-auto px-6 py-12">
+                        <div class="md:flex md:items-center md:justify-between">
+                            <div class="md:max-w-2xl">
+                                <h3 class="text-2xl font-bold text-white mb-4">¿Eres una empresa buscando talento?</h3>
+                                <p class="text-blue-100 mb-6">Publica tus ofertas de empleo y encuentra a los mejores
+                                    profesionales para tu equipo. Miles de candidatos cualificados esperan tu oferta.
+                                </p>
+                            </div>
+                            <div class="mt-6 md:mt-0">
+                                <a href="#"
+                                    class="inline-block px-6 py-3 bg-white text-blue-600 rounded-md hover:bg-gray-100 font-medium">Publicar
+                                    oferta</a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+
+            <!-- Footer -->
+            <footer class="py-16 text-center text-sm text-black dark:text-white/70 bg-gray-800 dark:bg-gray-900">
+                <div class="max-w-7xl mx-auto px-6">
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-8 text-left mb-10">
+                        <div>
+                            <h4 class="text-white text-lg font-semibold mb-4">JobFinder</h4>
+                            <p class="text-gray-400">Conectando talentos con oportunidades desde 2023.</p>
+                        </div>
+                        <div>
+                            <h5 class="text-white text-md font-semibold mb-4">Para candidatos</h5>
+                            <ul class="space-y-2">
+                                <li><a href="#" class="text-gray-400 hover:text-white">Buscar empleos</a></li>
+                                <li><a href="#" class="text-gray-400 hover:text-white">Crear perfil</a></li>
+                                <li><a href="#" class="text-gray-400 hover:text-white">Alertas de empleo</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h5 class="text-white text-md font-semibold mb-4">Para empresas</h5>
+                            <ul class="space-y-2">
+                                <li><a href="#" class="text-gray-400 hover:text-white">Publicar empleo</a></li>
+                                <li><a href="#" class="text-gray-400 hover:text-white">Búsqueda de
+                                        candidatos</a></li>
+                                <li><a href="#" class="text-gray-400 hover:text-white">Soluciones de
+                                        reclutamiento</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h5 class="text-white text-md font-semibold mb-4">Contáctanos</h5>
+                            <ul class="space-y-2">
+                                <li><a href="#" class="text-gray-400 hover:text-white">Soporte</a></li>
+                                <li><a href="#" class="text-gray-400 hover:text-white">Acerca de</a></li>
+                                <li><a href="#" class="text-gray-400 hover:text-white">Blog</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }})
+                </div>
+            </footer>
         </div>
-    </body>
+    </div>
+</body>
+
 </html>
 {{-- <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">

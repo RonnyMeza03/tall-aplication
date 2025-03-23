@@ -7,6 +7,7 @@ use App\Models\Company;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Country;
+use PHPUnit\Framework\Constraint\Count;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Company>
@@ -39,7 +40,7 @@ class CompanyFactory extends Factory
                 User::factory()->create([
                     'name' => 'Admin',
                     'email' => 'admin@admin.com',
-                    'country_id' => $company->country_id,
+                    'country_id' => Country::factory()->create()->id,
                     'password' => Hash::make('password'),
                 ]),
                 ['company_id' => $company->id]

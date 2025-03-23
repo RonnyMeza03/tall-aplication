@@ -61,6 +61,8 @@ class JobOfferForm extends Component
         session()->flash('message', 'Job Offer Created Successfully.');
 
         $this->reset();
+
+        return redirect()->route('MyOffers');
     }
 
     public function render()

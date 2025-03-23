@@ -12,7 +12,9 @@ class JobOfferController extends Controller
      */
     public function index()
     {
-        //
+        $jobsOffers = JobOffer::all();
+
+        return view('welcome', compact('jobsOffers'));
     }
 
     /**

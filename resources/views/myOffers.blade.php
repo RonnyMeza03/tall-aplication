@@ -68,7 +68,7 @@ $offers = JobOffer::where('user_id', Auth::user()->id)->get();
                                         <div class="bg-gray-100 dark:bg-gray-600 rounded p-2 mb-4">
                                             <p class="text-sm font-medium text-gray-700 dark:text-gray-300">Salario:</p>
                                             <p class="text-md font-semibold text-gray-800 dark:text-gray-200">
-                                                {{ number_format($offer->minSalary, 0, ',', '.') }} - {{ number_format($offer->maxSalary, 0, ',', '.') }} €
+                                                {{ number_format($offer->minSalary, 0, ',', '.') }} - {{ number_format($offer->maxSalary, 0, ',', '.') }} {{ $offer->currency }}
                                             </p>
                                         </div>
                                         

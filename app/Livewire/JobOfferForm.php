@@ -5,7 +5,7 @@ namespace App\Livewire;
 use App\Models\Country;
 use Livewire\Component;
 use App\Models\JobOffer;
-use Illuminate\Container\Attributes\Log;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log as FacadesLog;
 
@@ -19,15 +19,17 @@ class JobOfferForm extends Component
     public $mode;
     public $workingHours;
     public $currency;
-    public $companyId;
-    public $countryId;
-    public $userId;
+    public $company_id;
+    public $country_id;
+    public $user_id;
     public $expiresAt;
 
     public function submit()
     {
-        $this->userId = Auth::user()->id;
-        $this->companyId = Auth::user()->company->id;
+        $this->user_id = Auth::user()->id;
+        $this->company_id = Auth::user()->company[0]->id;
+        Log::info('User ID: ' . $this->user_id);
+        Log::info('Company ID: ' . $this->company_id);
 
         $this->validate([
             'jobTitle' => 'required',
@@ -37,9 +39,7 @@ class JobOfferForm extends Component
             'mode' => 'required',
             'workingHours' => 'required',
             'currency' => 'required',
-            'companyId' => 'required',
-            'countryId' => 'required',
-            'userId' => 'required',
+            'country_id' => 'required',
             'expiresAt' => 'required',
         ]);
 
@@ -52,9 +52,9 @@ class JobOfferForm extends Component
             'mode' => $this->mode,
             'workingHours' => $this->workingHours,
             'currency' => $this->currency,
-            'companyId' => $this->companyId,
-            'countryId' => $this->countryId,
-            'userId' => $this->userId,
+            'company_id' => $this->company_id,
+            'country_id' => $this->country_id,
+            'user_id' => $this->user_id,
             'expiresAt' => $this->expiresAt,
         ]);
 
@@ -65,7 +65,7 @@ class JobOfferForm extends Component
 
     public function render()
     {
-        $countryList = Country::all();
-        return view('livewire.job-offer-form')->with(['layout' => $this->layout, 'countryList' => $countryList]);
+        $countries = Country::all()->pluck('name', 'id');
+        return view('livewire.job-offer-form')->with(['layout' => $this->layout, 'countries' => $countries]);
     }
 }

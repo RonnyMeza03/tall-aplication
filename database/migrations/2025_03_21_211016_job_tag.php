@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('job_tag', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('jobOfferId')->references('id')->on('job_offers');
-            $table->foreignId('tagId')->references('id')->on('tags');
+            $table->foreignId('jobOffer_id')->references('id')->on('job_offers');
+            $table->foreignId('tag_id')->references('id')->on('tags');
             $table->timestamps();
         });
     }

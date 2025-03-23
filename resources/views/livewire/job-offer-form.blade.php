@@ -13,8 +13,8 @@
         public string $mode = '';
         public string $workingHours = '';
         public string $currency = '';
-        public int $companyId = 0;
-        public int $countryId = 0;
+        public int $company_id = 0;
+        public int $country_id = 0;
         public string $expiresAt = '';
 
             // Define el layout específicamente
@@ -28,7 +28,7 @@
          */
         public function mount(): void
         {
-            $this->companyId = Auth::user()->company->id;
+            $this->company_id = Auth::user()->company->id;
         }
     }
 
@@ -44,7 +44,7 @@
         <div class="mb-4">
             <label class="block text-gray-700">Título:</label>
             <input type="text" wire:model="jobTitle" class="w-full border rounded p-2">
-            @error('title') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+            @error('jobTitle') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
         </div>
 
         <div class="mb-4">
@@ -78,7 +78,7 @@
                 <option value="">Selecciona una opción</option>
                 <option value="full-time">Tiempo Completo</option>
                 <option value="part-time">Medio Tiempo</option>
-                <option value="freelance">Freelance</option>
+                <option value="remote">Remote</option>
             </select>
             @error('workingHours') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
         </div>
@@ -91,13 +91,13 @@
 
         <div class="mb-4">
             <label class="block text-gray-700">País:</label>
-            <select wire:model="countryId" class="w-full border rounded p-2">
+            <select wire:model="country_id" class="w-full border rounded p-2">
                 <option value="">Selecciona un país</option>
-                @foreach($countryList as $country)
-                    <option value="{{ $country->id }}">{{ $country->name }}</option>
+                @foreach($countries as $id => $country)
+                    <option value="{{ $id }}">{{ $country }}</option>
                 @endforeach
             </select>
-            @error('countryId') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+            @error('country_id') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
         </div>
 
         <div class="mb-4">

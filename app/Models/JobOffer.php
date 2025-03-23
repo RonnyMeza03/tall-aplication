@@ -18,9 +18,9 @@ class JobOffer extends Model
         'mode',
         'workingHours',
         'currency',
-        'companyId',
-        'countryId',
-        'userId',
+        'company_id',
+        'country_id',
+        'user_id',
         'expiresAt'
     ];
 

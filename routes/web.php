@@ -1,8 +1,7 @@
 <?php
 
+use App\Http\Controllers\JobOfferController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ProfileController;
-use App\Livewire\JobOfferForm;
 
 Route::view('/', 'welcome');
 
@@ -21,6 +20,10 @@ Route::view('myOffers', 'MyOffers')
 Route::view('myOffers/create', 'job-offers.create')
     ->middleware(['auth'])
     ->name('job-offers.create');
+
+Route::get('myOffers/show/{offer}', [JobOfferController::class, 'show'])
+    ->middleware(['auth'])
+    ->name('job-offers.show');
 
 Route::view('myTeam', 'MyTeam')
     ->middleware(['auth'])

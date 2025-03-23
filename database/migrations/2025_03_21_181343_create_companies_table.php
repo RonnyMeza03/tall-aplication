@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('email');
             $table->string('logo');
             $table->string('website');
-            $table->foreignId('countryId')->references('id')->on('countries');
+            $table->foreignId('country_id')->references('id')->on('countries');
             $table->timestamps();
         });
     }

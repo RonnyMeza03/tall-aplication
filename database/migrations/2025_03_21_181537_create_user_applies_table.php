@@ -16,8 +16,8 @@ return new class extends Migration
             $table->text('presentation');
             $table->string('userUrl');
             $table->string('curriculumPdf');
-            $table->foreignId('userId')->references('id')->on('users');
-            $table->foreignId('jobOfferId')->references('id')->on('job_offers');
+            $table->foreignId('user_id')->references('id')->on('users');
+            $table->foreignId('jobOffer_id')->references('id')->on('job_offers');
             $table->timestamps();
         });
     }

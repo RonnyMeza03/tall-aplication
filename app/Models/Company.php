@@ -16,7 +16,7 @@ class Company extends Model
         'email',
         'logo',
         'website',
-        'countryId',
+        'country_id',
     ];
 
     public function country()
@@ -26,7 +26,7 @@ class Company extends Model
 
     public function users()
     {
-        return $this->belongsToMany(User::class, 'user_company');
+        return $this->belongsToMany(User::class, 'user_company', 'company_id', 'user_id');
     }
 
     public function jobOffers()

@@ -23,7 +23,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'countryId'
+        'country_id'
     ];
 
     /**
@@ -56,7 +56,7 @@ class User extends Authenticatable
 
     public function company()
     {
-        return $this->belongsToMany(Company::class, 'user_company');
+        return $this->belongsToMany(Company::class, 'user_company', 'user_id', 'company_id');
     }
 
     public function applies()
@@ -66,6 +66,6 @@ class User extends Authenticatable
 
     public function country()
     {
-        return $this->belongsTo(Country::class, 'countryId');
+        return $this->belongsTo(Country::class, 'country_id');
     }
 }

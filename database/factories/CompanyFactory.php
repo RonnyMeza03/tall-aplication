@@ -27,7 +27,7 @@ class CompanyFactory extends Factory
             'website' => fake()->url(),
             'description' => fake()->text(),
             'address' => fake()->address(),
-            'countryId' => Country::factory()->create()->id,
+            'country_id' => Country::factory()->create()->id,
         ];
     }
 
@@ -39,7 +39,7 @@ class CompanyFactory extends Factory
                 User::factory()->create([
                     'name' => 'Admin',
                     'email' => 'admin@admin.com',
-                    'countryId' => $company->countryId,
+                    'country_id' => $company->country_id,
                     'password' => Hash::make('password'),
                 ]),
                 ['company_id' => $company->id]

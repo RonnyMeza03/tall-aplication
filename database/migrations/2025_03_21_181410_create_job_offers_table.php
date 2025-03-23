@@ -21,9 +21,9 @@ return new class extends Migration
             $table->string('mode');
             $table->enum('workingHours', ['full-time', 'part-time', 'remote']);
             $table->string('currency');
-            $table->foreignId('companyId')->references('id')->on('companies');
-            $table->foreignId('countryId')->references('id')->on('countries');
-            $table->foreignId('userId')->references('id')->on('users');
+            $table->foreignId('company_id')->references('id')->on('companies');
+            $table->foreignId('country_id')->references('id')->on('countries');
+            $table->foreignId('user_id')->references('id')->on('users');
             $table->dateTime('expiresAt');
             $table->timestamps();
         });

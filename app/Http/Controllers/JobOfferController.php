@@ -17,6 +17,15 @@ class JobOfferController extends Controller
         return view('welcome', compact('jobsOffers'));
     }
 
+    public function indexGuest()
+    {
+        // $jobsOffers = JobOffer::all();
+
+        $jobsOffers = ['jobTitle' => 'prueba', 'company_id' => '1'];
+
+        return view('job-offers.index-guest', ['jobsOffers' => $jobsOffers]);
+    }
+
     /**
      * Show the form for creating a new resource.
      */

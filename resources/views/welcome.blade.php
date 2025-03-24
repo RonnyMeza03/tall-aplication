@@ -184,7 +184,7 @@
                             @endforelse
                         </div>
                         <div class="mt-10 text-center">
-                            <a href="#"
+                            <a href="{{route('empleos')}}"
                                 class="inline-block px-6 py-3 bg-blue-600 dark:bg-blue-500 text-white rounded-md hover:bg-blue-700 dark:hover:bg-blue-600 font-medium">Ver
                                 todos los empleos</a>
                         </div>

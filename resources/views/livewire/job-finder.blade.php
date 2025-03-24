@@ -1,29 +1,106 @@
 <?php
 
-    use App\Models\JobOffer;
-    use Livewire\Volt\Component;
+use App\Models\JobOffer;
+use App\Models\UserApply;
+use Livewire\Volt\Component;
+use Livewire\WithFileUploads;
 
-    new class extends Component
+new class extends Component
+{
+    use WithFileUploads;
+    
+    public $jobOffers = [];
+    public $selectedJobId = null;
+    public $selectedJob = null;
+    public $showModal = false;
+    
+    // Application form fields
+    public $presentation = '';
+    public $userUrl = '';
+    public $curriculumPdf = null;
+    public $coverLetter = '';
+    public $resume = null;
+    public $user_id;
+    
+    // Form validation rules
+    protected function rules()
     {
-        public $jobOffers = [];
-        public $selectedJobId = null;
-        public $selectedJob = null;
-
-        public function loadJobDetails($jobOfferId)
-        {
-            $this->selectedJobId = $jobOfferId;
-            $this->selectedJob = JobOffer::with(['company', 'country'])->find($jobOfferId);
-        }
-
-        public function mount()
-        {
-            $this->jobOffers = JobOffer::with(['company', 'country'])->get();
-            // Optionally select the first job by default
-            if($this->jobOffers->isNotEmpty()) {
-                $this->loadJobDetails($this->jobOffers->first()->id);
-            }
+        return [
+            'presentation' => 'required|string|min:3|max:100',
+            'userUrl' => 'nullable',
+            // 'curriculumPdf' => 'required|string|max:20',
+        ];
+    }
+    
+    public function loadJobDetails($jobOfferId)
+    {
+        $this->selectedJobId = $jobOfferId;
+        $this->selectedJob = JobOffer::with(['company', 'country'])->find($jobOfferId);
+    }
+    
+    public function mount()
+    {
+        $this->jobOffers = JobOffer::with(['company', 'country'])->get();
+        // Optionally select the first job by default
+        if($this->jobOffers->isNotEmpty()) {
+            $this->loadJobDetails($this->jobOffers->first()->id);
         }
     }
+    
+    public function openModal()
+    {
+        if (auth()->check())
+        {
+            $this->resetForm();
+            $this->showModal = true;
+        } else {
+            return redirect()->route('login');
+        }
+    }
+    
+    public function closeModal()
+    {
+        $this->showModal = false;
+        $this->resetForm();
+    }
+    
+    public function resetForm()
+    {
+        $this->reset(['presentation', 'userUrl', 'curriculumPdf']);
+        $this->resetErrorBag();
+    }
+    
+    public function submitApplication($jobId)
+    {
+        $user_id = auth()->id();
+        // $this->validate();
+
+         // Create a new job application
+         UserApply::create([
+                'presentation' => $this->presentation,
+                'userUrl' => $this->userUrl,
+                'curriculumPdf' => $this->resume->getClientOriginalName(),
+                'user_id' => $user_id,
+                'jobOffer_id' => $jobId,
+            ]);
+
+            $resumePath = $this->resume->store('resumes', 'public');
+            
+            $this->closeModal();
+            
+            // Show success message
+            session()->flash('message', '¡Tu solicitud ha sido enviada con éxito!');
+        
+        try {
+            // Store the resume file
+            // $resumePath = $this->resume->store('resumes', 'public');
+        
+            
+        } catch (\Exception $e) {
+            session()->flash('error', 'Error al guardar el archivo. Por favor intenta de nuevo.');
+        }
+    }
+}
 
 ?>
 
@@ -72,8 +149,8 @@
                                         @if($jobOffer->country)
                                             {{ $jobOffer->country->name }} 
                                         @endif
-                                        @if($jobOffer->jobType)
-                                            · {{ $jobOffer->jobType }}
+                                        @if($jobOffer->mode)
+                                            · {{ $jobOffer->mode }}
                                         @endif
                                     </p>
                                     <div class="mt-2 flex items-center text-xs text-gray-500 dark:text-gray-400">
@@ -142,7 +219,7 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A10.5 10.5 0 0112 4.5 10.5 10.5 0 012.95 13.255a1 1 0 00-.895.553 1 1 0 00.895 1.447A10.5 10.5 0 0112 19.5a10.5 10.5 0 019.05-4.245 1 1 0 00.895-1.447 1 1 0 00-.895-.553z" />
                                     </svg>
                                     @if($selectedJob->jobType)
-                                        <span>{{ $selectedJob->jobType }}</span>
+                                        <span>{{ $selectedJob->mode }}</span>
                                     @else
                                         <span>Tiempo completo</span>
                                     @endif
@@ -173,9 +250,9 @@
                             </div>
                             
                             <div class="mt-6">
-                                <a href="#" class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-sm text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                                    Solicitar ahora
-                                </a>
+                                <button wire:click="openModal" class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-sm text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                                    Postularse
+                                </button>
                                 <button class="ml-3 inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md font-semibold text-sm text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                                     Guardar
                                 </button>
@@ -244,4 +321,110 @@
             </div>
         </div>
     </div>
+    
+    <!-- Application Modal -->
+    @if($showModal)
+        <div class="fixed inset-0 z-50 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+            <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                <!-- Background overlay -->
+                <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true" wire:click="closeModal"></div>
+                
+                <!-- Modal panel -->
+                <div class="inline-block align-bottom bg-white dark:bg-gray-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                    <div class="bg-white dark:bg-gray-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                        <div class="sm:flex sm:items-start">
+                            <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
+                                <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-white" id="modal-title">
+                                    Postularse para: {{ $selectedJob->jobTitle }}
+                                </h3>
+                                <div class="mt-2">
+                                    <p class="text-sm text-gray-500 dark:text-gray-400">
+                                        Complete el siguiente formulario para enviar su solicitud a {{ $selectedJob->company ? $selectedJob->company->name : 'esta empresa' }}.
+                                    </p>
+                                </div>
+                                
+                                <!-- Application Form -->
+                                <form wire:submit.prevent="submitApplication({{$selectedJob->id}})" class="mt-4 space-y-4">
+                                    {{-- <!-- Full Name -->
+                                    <div>
+                                        <label for="fullName" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Nombre completo</label>
+                                        <input type="text" wire:model="fullName" id="fullName" class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                        @error('fullName') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
+                                    </div> --}}
+                                    
+                                    <!-- Email -->
+                                    {{-- <div>
+                                        <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Correo electrónico</label>
+                                        <input type="email" wire:model="email" id="email" class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                        @error('email') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
+                                    </div> --}}
+                                    
+                                    <!-- Phone -->
+                                    {{-- <div>
+                                        <label for="phone" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Teléfono</label>
+                                        <input type="text" wire:model="phone" id="phone" class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                        @error('phone') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
+                                    </div> --}}
+
+                                    <div>
+                                        <label for="userUrl" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Url</label>
+                                        <input type="text" wire:model="userUrl" id="userUrl" class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                        @error('userUrl') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
+                                    </div>
+                                    
+                                    <!-- presentation -->
+                                    <div>
+                                        <label for="presentation" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Carta de presentación (opcional)</label>
+                                        <textarea wire:model="presentation" id="presentation" rows="4" class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"></textarea>
+                                        @error('presentation') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
+                                    </div>
+                                    
+                                    <!-- Resume Upload -->
+                                    <div>
+                                        <label for="resume" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Currículum (PDF, DOC, DOCX)</label>
+                                        <div class="mt-1 flex items-center">
+                                            <input type="file" wire:model="resume" id="resume" class="sr-only">
+                                            <label for="resume" class="relative cursor-pointer bg-white dark:bg-gray-800 py-2 px-3 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500">
+                                                <span>Seleccionar archivo</span>
+                                            </label>
+                                            <p class="ml-3 text-xs text-gray-500 dark:text-gray-400">
+                                                @if($resume)
+                                                    {{ $resume->getClientOriginalName() }}
+                                                @else
+                                                    Ningún archivo seleccionado
+                                                @endif
+                                            </p>
+                                        </div>
+                                        @error('resume') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
+                                    </div>
+                                    
+                                    <div class="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
+                                        <button type="submit" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm">
+                                            Enviar solicitud
+                                        </button>
+                                        <button type="button" wire:click="closeModal" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 dark:border-gray-600 shadow-sm px-4 py-2 bg-white dark:bg-gray-800 text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:w-auto sm:text-sm">
+                                            Cancelar
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
+    
+    <!-- Flash Messages -->
+    @if (session()->has('message'))
+        <div class="fixed bottom-0 right-0 m-6 p-4 bg-green-500 text-white rounded shadow-lg z-50" x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show = false, 3000)">
+            {{ session('message') }}
+        </div>
+    @endif
+    
+    @if (session()->has('error'))
+        <div class="fixed bottom-0 right-0 m-6 p-4 bg-red-500 text-white rounded shadow-lg z-50" x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show = false, 3000)">
+            {{ session('error') }}
+        </div>
+    @endif
 </div>

@@ -14,11 +14,16 @@ class UserApply extends Model
         'userUrl',
         'curriculumPdf',
         'user_id',
-        'jobOfferId'
+        'jobOffer_id'
     ];
 
     public function user()
     {
         return $this->belongsToMany(User::class, 'user_applies');
+    }
+
+    public function jobOffer()
+    {
+        return $this->belongsToMany(JobOffer::class, 'user_applies');
     }
 }

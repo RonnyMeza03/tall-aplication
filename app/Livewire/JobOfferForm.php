@@ -55,7 +55,7 @@ class JobOfferForm extends Component
             'company_id' => $this->company_id,
             'country_id' => $this->country_id,
             'user_id' => $this->user_id,
-            'expiresAt' => $this->expiresAt,
+            'expires_at' => $this->expiresAt,
         ]);
 
         session()->flash('message', 'Job Offer Created Successfully.');

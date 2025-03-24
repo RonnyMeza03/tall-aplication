@@ -35,6 +35,13 @@
                             </svg>
                             Volver
                         </a>
+
+                        <a href="{{ route('user-applies.index', $offer) }}" class="inline-flex items-center px-4 py-2 bg-gray-200 dark:bg-gray-700 border border-transparent rounded-md font-semibold text-xs text-gray-800 dark:text-gray-200 uppercase tracking-widest hover:bg-gray-300 dark:hover:bg-gray-600 active:bg-gray-400 dark:active:bg-gray-500 focus:outline-none focus:border-gray-400 dark:focus:border-gray-500 focus:ring ring-gray-300 disabled:opacity-25 transition">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+                            </svg>
+                            Ver candidaturas
+                        </a>
                     </div>
                 </div>
 
@@ -97,7 +104,7 @@
                                         </svg>
                                         <div>
                                             <p class="text-sm text-gray-500 dark:text-gray-400">Salario</p>
-                                            <p class="font-medium text-gray-800 dark:text-gray-200">{{ number_format($offer->minSalary, 0, ',', '.') }} - {{ number_format($offer->maxSalary, 0, ',', '.') }} €</p>
+                                            <p class="font-medium text-gray-800 dark:text-gray-200">{{ number_format($offer->minSalary, 0, ',', '.') }} - {{ number_format($offer->maxSalary, 0, ',', '.') }} {{$offer->currency}}</p>
                                         </div>
                                     </div>
 
@@ -113,7 +120,7 @@
                                     </div>
 
                                     <!-- Ubicación (podría ser un campo adicional) -->
-                                    @if(isset($offer->location))
+                                    @if(isset($offer->country))
                                     <div class="flex items-center">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500 dark:text-gray-400 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
@@ -121,20 +128,20 @@
                                         </svg>
                                         <div>
                                             <p class="text-sm text-gray-500 dark:text-gray-400">Ubicación</p>
-                                            <p class="font-medium text-gray-800 dark:text-gray-200">{{ $offer->location }}</p>
+                                            <p class="font-medium text-gray-800 dark:text-gray-200">{{ $offer->country->name }}</p>
                                         </div>
                                     </div>
                                     @endif
 
                                     <!-- Tipo de contrato (podría ser un campo adicional) -->
-                                    @if(isset($offer->contractType))
+                                    @if(isset($offer->workingHours))
                                     <div class="flex items-center">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500 dark:text-gray-400 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                                         </svg>
                                         <div>
                                             <p class="text-sm text-gray-500 dark:text-gray-400">Tipo de contrato</p>
-                                            <p class="font-medium text-gray-800 dark:text-gray-200">{{ $offer->contractType }}</p>
+                                            <p class="font-medium text-gray-800 dark:text-gray-200">{{ $offer->workingHours }}</p>
                                         </div>
                                     </div>
                                     @endif
@@ -164,21 +171,21 @@
 
                             <!-- Estadísticas (esto sería información adicional) -->
                             <div class="bg-white dark:bg-gray-700 rounded-lg shadow p-4">
-                                {{-- <h3 class="text-md font-medium text-gray-800 dark:text-gray-200 mb-3">Estadísticas</h3>
+                                <h3 class="text-md font-medium text-gray-800 dark:text-gray-200 mb-3">Estadísticas</h3>
                                 <div class="space-y-2">
-                                    <div class="flex justify-between">
+                                    {{-- <div class="flex justify-between">
                                         <span class="text-sm text-gray-500 dark:text-gray-400">Visualizaciones:</span>
                                         <span class="text-sm font-medium text-gray-800 dark:text-gray-200">{{ $offer->views ?? 0 }}</span>
-                                    </div>
+                                    </div> --}}
                                     <div class="flex justify-between">
                                         <span class="text-sm text-gray-500 dark:text-gray-400">Candidaturas:</span>
-                                        <span class="text-sm font-medium text-gray-800 dark:text-gray-200">{{ $offer->applications_count ?? 0 }}</span>
+                                        <span class="text-sm font-medium text-gray-800 dark:text-gray-200">{{ $offer->users()->count() ?? 0 }}</span>
                                     </div>
                                     <div class="flex justify-between">
                                         <span class="text-sm text-gray-500 dark:text-gray-400">Días activa:</span>
                                         <span class="text-sm font-medium text-gray-800 dark:text-gray-200">{{ \Carbon\Carbon::parse($offer->created_at)->diffInDays(now()) }}</span>
                                     </div>
-                                </div> --}}
+                                </div>
                             </div>
                         </div>
                     </div>

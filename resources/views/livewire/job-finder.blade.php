@@ -17,6 +17,8 @@ new class extends Component
     // Application form fields
     public $presentation = '';
     public $userUrl = '';
+    public $pathFile = '';
+    public $nameFile = '';
     public $curriculumPdf = null;
     public $coverLetter = '';
     public $resume = null;
@@ -75,16 +77,17 @@ new class extends Component
         $user_id = auth()->id();
         // $this->validate();
 
+        $resumePath = $this->resume->store('resumes', 'public');
+
          // Create a new job application
          UserApply::create([
                 'presentation' => $this->presentation,
                 'userUrl' => $this->userUrl,
-                'curriculumPdf' => $this->resume->getClientOriginalName(),
+                'nameFile' => $this->resume->getClientOriginalName(),
+                'pathFile' => $resumePath,
                 'user_id' => $user_id,
-                'jobOffer_id' => $jobId,
+                'job_offer_id' => $jobId,
             ]);
-
-            $resumePath = $this->resume->store('resumes', 'public');
             
             $this->closeModal();
             

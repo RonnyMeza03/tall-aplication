@@ -24,7 +24,7 @@ return new class extends Migration
             $table->foreignId('company_id')->references('id')->on('companies');
             $table->foreignId('country_id')->references('id')->on('countries');
             $table->foreignId('user_id')->references('id')->on('users');
-            $table->dateTime('expiresAt');
+            $table->dateTime('expires_at');
             $table->timestamps();
         });
     }

@@ -12,14 +12,15 @@ class UserApply extends Model
     protected $fillable = [
         'presentation',
         'userUrl',
-        'curriculumPdf',
+        'nameFile',
+        'pathFile',
         'user_id',
-        'jobOffer_id'
+        'job_offer_id'
     ];
 
     public function user()
     {
-        return $this->belongsToMany(User::class, 'user_applies');
+        return $this->belongsTo(User::class);
     }
 
     public function jobOffer()

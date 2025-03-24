@@ -61,7 +61,7 @@ class User extends Authenticatable
 
     public function applies()
     {
-        return $this->belongsToMany(JobOffer::class, 'user_applies');
+        return $this->hasMany(JobOffer::class, 'user_applies');
     }
 
     public function country()

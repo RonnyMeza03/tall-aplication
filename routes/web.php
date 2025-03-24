@@ -6,11 +6,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [JobOfferController::class, 'index'])
     ->name('job-offers.index');
 
-// En routes/web.php
-Route::get('/test-livewire', function () {
-    $testData = ['test' => 'data'];
-    return view('test-livewire', ['testData' => $testData]);
-});
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
@@ -26,6 +21,10 @@ Route::view('empleos', 'job-offers.index-guest')
 Route::view('myOffers', 'MyOffers')
     ->middleware(['auth'])
     ->name('MyOffers');
+
+Route::view('myOffers/show/{offer}/users-applies', 'user-applies.index')
+    ->middleware(['auth'])
+    ->name('user-applies.index');
 
 Route::view('myOffers/create', 'job-offers.create')
     ->middleware(['auth'])

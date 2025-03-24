@@ -21,7 +21,7 @@ class JobOffer extends Model
         'company_id',
         'country_id',
         'user_id',
-        'expiresAt'
+        'expires_at'
     ];
 
     public function company()
@@ -34,7 +34,7 @@ class JobOffer extends Model
         return $this->belongsTo(Country::class);
     }
 
-    public function user()
+    public function users()
     {
         return $this->belongsToMany(User::class, 'user_applies');
     }

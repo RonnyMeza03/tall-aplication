@@ -18,11 +18,11 @@ Route::view('profile', 'profile')
 Route::view('empleos', 'job-offers.index-guest')
     ->name('empleos');
 
-Route::view('myOffers', 'MyOffers')
+Route::view('company/{company}/myOffers', 'MyOffers')
     ->middleware(['auth'])
     ->name('MyOffers');
 
-Route::view('myOffers/show/{offer}/users-applies', 'user-applies.index')
+Route::view('company/{company}/myOffers/show/{offer}/users-applies', 'user-applies.index')
     ->middleware(['auth'])
     ->name('user-applies.index');
 
@@ -34,7 +34,11 @@ Route::view('company/create', 'company.create')
     ->middleware(['auth'])
     ->name('company.create');
 
-Route::get('myOffers/show/{offer}', [JobOfferController::class, 'show'])
+Route::view('company', 'company.index')
+    ->middleware(['auth'])
+    ->name('company.index');
+
+Route::view('company/{company}/myOffers/show/{offer}', 'job-offers.show')
     ->middleware(['auth'])
     ->name('job-offers.show');
 

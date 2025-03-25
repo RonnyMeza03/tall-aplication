@@ -3,8 +3,14 @@
 use App\Models\JobOffer;
 use Illuminate\Support\Facades\Auth;
 
-//Arreglar para que se vea todas las ofertas de todas las compañias que pertecezcan al usuario
-$offers = JobOffer::where('company_id', Auth::user()->company[0]->id)->get();
+$userCompanies = Auth::user()->company;
+
+$id = request()->route('company');
+
+$offers = JobOffer::where('company_id', $id)->get();
+
+// //Arreglar para que se vea todas las ofertas de todas las compañias que pertecezcan al usuario
+// $offers = JobOffer::where('company_id', Auth::user()->company[0]->id)->get();
 
 ?>
 
@@ -14,7 +20,7 @@ $offers = JobOffer::where('company_id', Auth::user()->company[0]->id)->get();
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 flex justify-between items-center">
                     <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">Mis Ofertas de Empleo</h2>
-                    <a href="{{route('job-offers.create')}}" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md transition duration-150 ease-in-out">
+                    <a href="{{route('job-offers.create')}}" wire:navigate class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md transition duration-150 ease-in-out">
                         <span class="flex items-center">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
                                 <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd" />
@@ -77,7 +83,7 @@ $offers = JobOffer::where('company_id', Auth::user()->company[0]->id)->get();
                                             {{-- <a href="{{ route('job-offers.edit', $offer->id) }}" class="inline-flex items-center px-3 py-1 border border-transparent text-sm leading-4 font-medium rounded-md text-blue-700 bg-blue-100 hover:bg-blue-200 dark:bg-blue-800 dark:text-blue-100 dark:hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                                                 Editar
                                             </a> --}}
-                                            <a href="{{ route('job-offers.show', $offer) }}" class="inline-flex items-center px-3 py-1 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-700 bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
+                                            <a href="{{ route('job-offers.show', ['company' => $id, 'offer' => $offer] )}}" class="inline-flex items-center px-3 py-1 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-700 bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
                                                 Ver
                                             </a>
                                         </div>

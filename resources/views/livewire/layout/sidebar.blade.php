@@ -24,7 +24,7 @@
           </a>
         </li>
         <li>
-          <a href="{{route('MyOffers')}}" class="flex items-center p-2 rounded hover:bg-gray-700 transition">
+          <a href="{{route('company.index')}}" wire:navigate class="flex items-center p-2 rounded hover:bg-gray-700 transition">
             <svg class="w-5 h-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
             </svg>

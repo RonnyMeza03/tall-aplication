@@ -24,10 +24,11 @@ class JobOfferForm extends Component
     public $user_id;
     public $expiresAt;
 
-    public function submit()
+
+    public function submit($companyRequest)
     {
         $this->user_id = Auth::user()->id;
-        $this->company_id = Auth::user()->company[0]->id;
+        $this->company_id = $companyRequest;
         Log::info('User ID: ' . $this->user_id);
         Log::info('Company ID: ' . $this->company_id);
 
@@ -62,7 +63,7 @@ class JobOfferForm extends Component
 
         $this->reset();
 
-        return redirect()->route('MyOffers');
+        return redirect()->route('MyOffers' , ['company' => $companyRequest]);
     }
 
     public function render()

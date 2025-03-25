@@ -26,7 +26,7 @@ Route::view('company/{company}/myOffers/show/{offer}/users-applies', 'user-appli
     ->middleware(['auth'])
     ->name('user-applies.index');
 
-Route::view('myOffers/create', 'job-offers.create')
+Route::view('company/{company}/myOffers/create', 'job-offers.create')
     ->middleware(['auth'])
     ->name('job-offers.create');
 

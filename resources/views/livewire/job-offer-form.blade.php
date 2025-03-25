@@ -45,7 +45,7 @@
 
     <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-6">Crear Nueva Oferta de Trabajo</h2>
 
-    <form wire:submit.prevent="submit" class="space-y-5">
+    <form wire:submit.prevent="submit('{{request()->route('company')}}')" class="space-y-5">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
                 <label class="block text-gray-700 dark:text-gray-300 font-medium mb-2">Título del Puesto:</label>

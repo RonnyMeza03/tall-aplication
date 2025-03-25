@@ -76,6 +76,7 @@
 <div>
     <livewire:job-finder />
 </div>
+@livewireScripts
 </body>
 
 </html>

@@ -3,7 +3,8 @@
 use App\Models\JobOffer;
 use Illuminate\Support\Facades\Auth;
 
-$offers = JobOffer::where('user_id', Auth::user()->id)->get();
+//Arreglar para que se vea todas las ofertas de todas las compañias que pertecezcan al usuario
+$offers = JobOffer::where('company_id', Auth::user()->company[0]->id)->get();
 
 ?>
 

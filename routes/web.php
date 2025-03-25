@@ -30,6 +30,10 @@ Route::view('myOffers/create', 'job-offers.create')
     ->middleware(['auth'])
     ->name('job-offers.create');
 
+Route::view('company/create', 'company.create')
+    ->middleware(['auth'])
+    ->name('company.create');
+
 Route::get('myOffers/show/{offer}', [JobOfferController::class, 'show'])
     ->middleware(['auth'])
     ->name('job-offers.show');

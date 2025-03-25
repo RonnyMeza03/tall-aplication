@@ -13,6 +13,7 @@
 
     <!-- Styles -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @livewireStyles()
 </head>
 
 <body class="antialiased font-sans">
@@ -184,7 +185,7 @@
                             @endforelse
                         </div>
                         <div class="mt-10 text-center">
-                            <a href="{{route('empleos')}}"
+                            <a href="{{route('empleos')}}" wire:navigate
                                 class="inline-block px-6 py-3 bg-blue-600 dark:bg-blue-500 text-white rounded-md hover:bg-blue-700 dark:hover:bg-blue-600 font-medium">Ver
                                 todos los empleos</a>
                         </div>
@@ -202,7 +203,7 @@
                                 </p>
                             </div>
                             <div class="mt-6 md:mt-0">
-                                <a href="#"
+                                <a href="{{route('company.create')}}" wire:navigate
                                     class="inline-block px-6 py-3 bg-white text-blue-600 rounded-md hover:bg-gray-100 font-medium">Publicar
                                     oferta</a>
                             </div>
@@ -252,6 +253,7 @@
             </footer>
         </div>
     </div>
+    @livewireScripts()
 </body>
 
 </html>

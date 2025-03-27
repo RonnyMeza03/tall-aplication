@@ -6,9 +6,11 @@ use App\Models\Company;
 use App\Models\Country;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Features\SupportFileUploads\WithFileUploads;
 
 class CompanyForm extends Component
 {
+    use WithFileUploads;
     public $layout = 'layouts.guest'; // apunta a resources/views/layouts/guest.blade.php
     public $name;
     public $description;
@@ -20,6 +22,9 @@ class CompanyForm extends Component
 
     public function submit()
     {
+
+        $logoPath = $this->logo->store('logos', 'public');
+
         $this->validate([
             'name' => 'required',
             'description' => 'required',
@@ -35,7 +40,7 @@ class CompanyForm extends Component
             'description' => $this->description,
             'address' => $this->address,
             'email' => $this->email,
-            'logo' => $this->logo,
+            'logo' => $logoPath,
             'website' => $this->website,
             'country_id' => $this->country_id,
         ]);

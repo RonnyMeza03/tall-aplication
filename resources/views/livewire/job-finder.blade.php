@@ -77,7 +77,7 @@ new class extends Component
         $user_id = auth()->id();
         // $this->validate();
 
-        $resumePath = $this->resume->store('resumes', 'public');
+        $resumePath = $this->resume->storeAs('resumes', $this->resume->getClientOriginalName(), 'public');
 
          // Create a new job application
          UserApply::create([
@@ -96,7 +96,7 @@ new class extends Component
         
         try {
             // Store the resume file
-            // $resumePath = $this->resume->store('resumes', 'public');
+            // $resumePath = $this->.resume->store('resumes', 'public');
         
             
         } catch (\Exception $e) {
@@ -110,9 +110,9 @@ new class extends Component
 <div>
     <!-- Main Content Area with Split View -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        <div class="flex flex-col lg:flex-row gap-6">
+        <div class="flex flex-col lg:flex-row gap-6 h-[calc(110vh-150px)]">
             <!-- Left Side - Job Listings -->
-            <div class="w-full lg:w-2/5 bg-white dark:bg-gray-800 rounded-lg shadow-sm overflow-hidden">
+            <div class="w-full lg:w-2/5 bg-white dark:bg-gray-800 rounded-lg shadow-sm overflow-hidden flex flex-col">
                 <div class="p-4 border-b border-gray-200 dark:border-gray-700">
                     <h2 class="text-xl font-semibold text-gray-800 dark:text-white">
                         Principales empleos que te recomendamos
@@ -125,7 +125,7 @@ new class extends Component
                     </p>
                 </div>
 
-                <div class="divide-y divide-gray-200 dark:divide-gray-700">
+                <div class="divide-y divide-gray-200 dark:divide-gray-700 overflow-y-auto">
                     @foreach ($jobOffers as $index => $jobOffer)
                         <div wire:key="job-{{ $jobOffer->id }}" 
                              class="p-4 hover:bg-gray-50 dark:hover:bg-gray-700 transition cursor-pointer
@@ -134,7 +134,7 @@ new class extends Component
                             <div class="flex items-start">
                                 <div class="flex-shrink-0 mr-4">
                                     @if($jobOffer->company && $jobOffer->company->logo)
-                                        <img src="{{ $jobOffer->company->logo }}" alt="{{ $jobOffer->company->name }}" class="h-12 w-12 object-cover rounded">
+                                        <img src="{{asset('storage/'. $jobOffer->company->logo)}}" alt="{{ $jobOffer->company->name }}" class="h-12 w-12 object-cover rounded">
                                     @else
                                         <div class="h-12 w-12 bg-gray-200 dark:bg-gray-700 rounded flex items-center justify-center">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -179,7 +179,7 @@ new class extends Component
             <!-- Right Side - Job Details -->
             <div class="w-full lg:w-3/5">
                 @if($selectedJob)
-                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm overflow-hidden">
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm overflow-y-auto h-[calc(110vh-150px)]">
                         <!-- Job Header -->
                         <div class="p-6 border-b border-gray-200 dark:border-gray-700">
                             <div class="flex items-start justify-between">
@@ -292,7 +292,7 @@ new class extends Component
                                 <div class="flex items-start">
                                     <div class="flex-shrink-0 mr-4">
                                         @if($selectedJob->company && $selectedJob->company->logo)
-                                            <img src="{{ $selectedJob->company->logo }}" alt="{{ $selectedJob->company->name }}" class="h-16 w-16 object-cover rounded">
+                                            <img src="{{ asset('storage/'. $jobOffer->company->logo) }}" alt="{{ $selectedJob->company->name }}" class="h-16 w-16 object-cover rounded">
                                         @else
                                             <div class="h-16 w-16 bg-gray-200 dark:bg-gray-700 rounded flex items-center justify-center">
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">

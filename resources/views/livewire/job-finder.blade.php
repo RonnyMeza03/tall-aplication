@@ -156,6 +156,13 @@ new class extends Component
                                             · {{ $jobOffer->mode }}
                                         @endif
                                     </p>
+                                    @if(count($jobOffer->tags) > 0)
+                                        @foreach ($jobOffer->tags as $tag)
+                                            <span class="inline-flex items-center px-2 py-1 text-xs font-medium text-gray-800 dark:text-gray-200 bg-gray-200 dark:bg-gray-700 rounded-full mr-2">
+                                                {{ $tag->name }}
+                                            </span>
+                                        @endforeach
+                                    @endif
                                     <div class="mt-2 flex items-center text-xs text-gray-500 dark:text-gray-400">
                                         <span>Publicado {{ $jobOffer->created_at->diffForHumans() }}</span>
                                         @if($jobOffer->applications_count)
@@ -250,6 +257,14 @@ new class extends Component
                                         @endif
                                     </span>
                                 </div>
+
+                                @if(count($selectedJob->tags) > 0)
+                                    @foreach ($selectedJob->tags as $tag)
+                                        <span class="inline-flex items-center px-2 py-1 text-xs font-medium text-gray-800 dark:text-gray-200 bg-gray-200 dark:bg-gray-700 rounded-full mr-2">
+                                            {{ $tag->name }}
+                                        </span>
+                                    @endforeach
+                                @endif
                             </div>
                             
                             <div class="mt-6">
@@ -292,7 +307,7 @@ new class extends Component
                                 <div class="flex items-start">
                                     <div class="flex-shrink-0 mr-4">
                                         @if($selectedJob->company && $selectedJob->company->logo)
-                                            <img src="{{ asset('storage/'. $jobOffer->company->logo) }}" alt="{{ $selectedJob->company->name }}" class="h-16 w-16 object-cover rounded">
+                                            <img src="{{ asset('storage/'. $selectedJob->company->logo) }}" alt="{{ $selectedJob->company->name }}" class="h-16 w-16 object-cover rounded">
                                         @else
                                             <div class="h-16 w-16 bg-gray-200 dark:bg-gray-700 rounded flex items-center justify-center">
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">

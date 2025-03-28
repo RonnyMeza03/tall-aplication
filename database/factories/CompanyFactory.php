@@ -7,6 +7,7 @@ use App\Models\Company;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Country;
+use App\Models\Tag;
 use PHPUnit\Framework\Constraint\Count;
 
 /**
@@ -24,7 +25,7 @@ class CompanyFactory extends Factory
         return [
             'name' => 'JobFinder INC',
             'email' => fake()->unique()->safeEmail(),
-            'logo' => fake()->imageUrl(),
+            'logo' => 'https://ui-avatars.com/api/?name=JF&background=0D8ABC&color=fff',
             'website' => fake()->url(),
             'description' => fake()->text(),
             'address' => fake()->address(),
@@ -45,6 +46,46 @@ class CompanyFactory extends Factory
                 ]),
                 ['company_id' => $company->id]
             );
+
+            $topics = ['Ciencia de datos', 
+                        'Desarrollo web', 
+                        'Desarrollo móvil', 
+                        'Ciberseguridad', 
+                        'Inteligencia artificial', 
+                        'Big data', 
+                        'Blockchain', 
+                        'Realidad aumentada', 
+                        'Realidad virtual', 
+                        'Internet de las cosas',
+                        'Computación en la nube',
+                        'Desarrollo de videojuegos',
+                        'Robótica',
+                        'administracion de empresas',
+                        'marketing',
+                        'diseño grafico',
+                        'redes sociales',
+                        'ventas',
+                        'atencion al cliente',
+                        'recursos humanos',
+                        'contabilidad',
+                        'finanzas',
+                        'logistica',
+                        'mecanica',
+                        'electricidad',
+                        'electronica',
+                        'Architectura',
+                        'Ingenieria civil',
+                        'Docencia',
+                        'Medicina',
+                        'Enfermeria',
+                        'Mensajeria',
+                        'Transporte',
+                        'Construccion',
+                        'Mantenimiento',];
+
+            foreach ($topics as $topic) {
+                Tag::factory()->create(['name' => $topic]);
+            }
         });
     }
 }

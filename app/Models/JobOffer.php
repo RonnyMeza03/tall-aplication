@@ -38,4 +38,9 @@ class JobOffer extends Model
     {
         return $this->belongsToMany(User::class, 'user_applies');
     }
+
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class, 'job_tag');
+    }
 }

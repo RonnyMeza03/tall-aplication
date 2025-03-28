@@ -13,23 +13,9 @@
         public string $mode = '';
         public string $workingHours = '';
         public string $currency = '';
-        public int $company_id = 0;
+        public $companyIdRequest;
         public int $country_id = 0;
         public string $expiresAt = '';
-
-        // Define el layout específicamente
-        public function layout()
-        {
-            return 'layouts.app'; // Apunta al archivo que ya tienes creado
-        }
-
-        /**
-         * Mount the component.
-         */
-        public function mount(): void
-        {
-            $this->company_id = Auth::user()->company->id;
-        }
     }
 ?>
 
@@ -45,7 +31,7 @@
 
     <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-6">Crear Nueva Oferta de Trabajo</h2>
 
-    <form wire:submit.prevent="submit('{{request()->route('company')}}')" class="space-y-5">
+    <form wire:submit.prevent="submit()" class="space-y-5">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
                 <label class="block text-gray-700 dark:text-gray-300 font-medium mb-2">Título del Puesto:</label>
@@ -116,10 +102,43 @@
                 <input type="date" wire:model="expiresAt" class="w-full border border-gray-300 dark:border-gray-600 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200 transition">
                 @error('expiresAt') <span class="text-red-500 dark:text-red-400 text-sm mt-1 block">{{ $message }}</span> @enderror
             </div>
+            <div>
+                <label class="block text-gray-700 dark:text-gray-300 font-medium mb-2">Etiquetas relacionadas:</label>
+                <div class="flex items-center space-x-2">
+                    <select wire:model="selectedTag" class="w-full border border-gray-300 dark:border-gray-600 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200 transition">
+                        <option value="">Selecciona etiquetas relacionadas</option>
+                        @foreach($tags as $id => $tag)
+                            <option value="{{ $id }}">{{ $tag }}</option>
+                        @endforeach
+                    </select>
+                    <button type="button" wire:click="addTag" class="px-4 py-3 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+                        </svg>
+                    </button>
+                </div>
+                @error('offerTags') <span class="text-red-500 dark:text-red-400 text-sm mt-1 block">{{ $message }}</span> @enderror
+                
+                <!-- Display selected tags -->
+                @if(count($offerTags) > 0)
+                    <div class="mt-3 flex flex-wrap gap-2">
+                        @foreach($offerTags as $index => $tagId)
+                            <div class="bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full px-3 py-1 text-sm flex items-center">
+                                {{ $tags[$tagId] }}
+                                <button type="button" wire:click="removeTag({{ $index }})" class="ml-2 text-blue-600 dark:text-blue-300 hover:text-blue-800 dark:hover:text-blue-100">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                    </svg>
+                                </button>
+                            </div>
+                        @endforeach
+                    </div>
+                @endif
+            </div>
         </div>
 
         <div class="pt-4 flex justify-end">
-            <button type="submit" class="bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 text-white font-medium px-6 py-3 rounded-md transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 flex items-center">
+            <button type="submit()" class="bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 text-white font-medium px-6 py-3 rounded-md transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 flex items-center">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
                     <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
                 </svg>

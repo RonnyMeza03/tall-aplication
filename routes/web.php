@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\JobOfferController;
+use App\Livewire\Calendar;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [JobOfferController::class, 'index'])
@@ -45,5 +46,10 @@ Route::view('company/{company}/myOffers/show/{offer}', 'job-offers.show')
 Route::view('myTeam', 'MyTeam')
     ->middleware(['auth'])
     ->name('MyTeam');
+
+Route::get('/calendar', Calendar::class)
+    ->middleware(['auth'])
+    ->name('calendar');
+
 
 require __DIR__ . '/auth.php';

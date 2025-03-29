@@ -16,7 +16,7 @@
         @livewireStyles()
     </head>
     <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
+        <div class="h-screen flex flex-col bg-gray-100 dark:bg-gray-900">
             <livewire:layout.navigation />
 
             <!-- Page Heading -->
@@ -27,12 +27,11 @@
                     </div>
                 </header>
             @endif
-            <div class="flex h-screen bg-gray-800 dark:bg-gray-900">
+            
+            <div class="flex flex-1 bg-gray-800 dark:bg-gray-900 overflow-hidden">
                 <livewire:layout.sidebar />
-                <main class="flex-1 overflow-y-auto transition duration-500 ease-in-out bg-gray-100 dark:bg-gray-900">
-                    <div>
-                        {{ $slot }}
-                    </div>
+                <main class="flex-1 overflow-auto p-4 bg-gray-100 dark:bg-gray-900">
+                    {{ $slot }}
                 </main>
             </div>
         </div>

@@ -67,7 +67,7 @@
 
     <!-- Event Modal -->
     @if($selectedEvent)
-    <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" 
+    <div class="fixed inset-0 bg-black/80 flex items-center justify-center z-50" 
          style="backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);">
         <div class="bg-white dark:bg-gray-800 rounded-lg p-6 w-full max-w-md mx-4">
             <div class="flex justify-between items-center mb-4">

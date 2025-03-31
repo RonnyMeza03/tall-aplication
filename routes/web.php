@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\JobOfferController;
 use App\Livewire\Calendar;
+use App\Livewire\MyTeam;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [JobOfferController::class, 'index'])
@@ -43,7 +44,7 @@ Route::view('company/{company}/myOffers/show/{offer}', 'job-offers.show')
     ->middleware(['auth'])
     ->name('job-offers.show');
 
-Route::view('myTeam', 'MyTeam')
+Route::get('myTeam', MyTeam::class)
     ->middleware(['auth'])
     ->name('MyTeam');
 

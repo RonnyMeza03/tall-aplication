@@ -20,7 +20,17 @@ new #[Layout('layouts.guest')] class extends Component
 
         Session::regenerate();
 
-        $this->redirectIntended(default: route('dashboard', absolute: false), navigate: true);
+        // Check if the user has company
+        if (count(auth()->user()->company))
+        {
+            // Redirect to the company dashboard
+            $this->redirectIntended(default: route('dashboard', absolute: false), navigate: true);
+        } 
+        else
+        {
+            // Redirect to the user dashboard
+            $this->redirectIntended(default: route('user.empleos', absolute: false), navigate: true);
+        }
     }
 }; ?>
 

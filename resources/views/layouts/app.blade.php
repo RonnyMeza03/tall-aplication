@@ -27,13 +27,20 @@
                     </div>
                 </header>
             @endif
-            
-            <div class="flex flex-1 bg-gray-800 dark:bg-gray-900 overflow-hidden">
-                <livewire:layout.sidebar />
-                <main class="flex-1 overflow-auto p-4 bg-gray-100 dark:bg-gray-900">
-                    {{ $slot }}
-                </main>
-            </div>
+            @if (count(Auth::user()->company) > 0)
+                <div class="flex flex-1 bg-gray-800 dark:bg-gray-900 overflow-hidden">
+                    <livewire:layout.sidebar />
+                    <main class="flex-1 overflow-auto p-4 bg-gray-100 dark:bg-gray-900">
+                        {{ $slot }}
+                    </main>
+                </div>
+            @else
+                <div class="flex flex-1 bg-gray-800 dark:bg-gray-900 overflow-hidden">
+                    <main class="flex-1 overflow-auto p-4 bg-gray-100 dark:bg-gray-900">
+                        {{ $slot }}
+                    </main>
+                </div>
+            @endif
         </div>
         @livewireScripts()
     </body>

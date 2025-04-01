@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\JobOfferController;
 use App\Livewire\Calendar;
+use App\Livewire\Dashboard;
 use App\Livewire\JobFinder;
 use App\Livewire\MyTeam;
 use App\Livewire\UserProfile;
@@ -11,7 +12,7 @@ Route::get('/', [JobOfferController::class, 'index'])
     ->name('job-offers.index');
 
 
-Route::view('dashboard', 'dashboard')
+Route::get('dashboard', Dashboard::class)
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 

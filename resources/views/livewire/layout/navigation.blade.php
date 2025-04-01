@@ -28,12 +28,18 @@ new class extends Component
                     </a>
                 </div>
 
-                <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" wire:navigate>
-                        {{ __('Dashboard') }}
-                    </x-nav-link>
-                </div>
+                @if (count(Auth::user()->company) == 0)
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <x-nav-link :href="route('user.empleos')" :active="request()->routeIs('dashboard')" wire:navigate>
+                            {{ __('Buscar Empleo') }}
+                        </x-nav-link>
+                    </div>
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <x-nav-link :href="route('user.profile')" :active="request()->routeIs('dashboard')" wire:navigate>
+                            {{ __('Mi perfil') }}
+                        </x-nav-link>
+                    </div>
+                @endif
             </div>
 
             <!-- Settings Dropdown -->

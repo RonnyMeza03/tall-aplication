@@ -1,111 +1,4 @@
-<?php
 
-use App\Models\JobOffer;
-use App\Models\UserApply;
-use Livewire\Volt\Component;
-use Livewire\WithFileUploads;
-
-new class extends Component
-{
-    use WithFileUploads;
-    
-    public $jobOffers = [];
-    public $selectedJobId = null;
-    public $selectedJob = null;
-    public $showModal = false;
-    
-    // Application form fields
-    public $presentation = '';
-    public $userUrl = '';
-    public $pathFile = '';
-    public $nameFile = '';
-    public $curriculumPdf = null;
-    public $coverLetter = '';
-    public $resume = null;
-    public $user_id;
-    
-    // Form validation rules
-    protected function rules()
-    {
-        return [
-            'presentation' => 'required|string|min:3|max:100',
-            'userUrl' => 'nullable',
-            // 'curriculumPdf' => 'required|string|max:20',
-        ];
-    }
-    
-    public function loadJobDetails($jobOfferId)
-    {
-        $this->selectedJobId = $jobOfferId;
-        $this->selectedJob = JobOffer::with(['company', 'country'])->find($jobOfferId);
-    }
-    
-    public function mount()
-    {
-        $this->jobOffers = JobOffer::with(['company', 'country'])->get();
-        // Optionally select the first job by default
-        if($this->jobOffers->isNotEmpty()) {
-            $this->loadJobDetails($this->jobOffers->first()->id);
-        }
-    }
-    
-    public function openModal()
-    {
-        if (auth()->check())
-        {
-            $this->resetForm();
-            $this->showModal = true;
-        } else {
-            return redirect()->route('login');
-        }
-    }
-    
-    public function closeModal()
-    {
-        $this->showModal = false;
-        $this->resetForm();
-    }
-    
-    public function resetForm()
-    {
-        $this->reset(['presentation', 'userUrl', 'curriculumPdf']);
-        $this->resetErrorBag();
-    }
-    
-    public function submitApplication($jobId)
-    {
-        $user_id = auth()->id();
-        // $this->validate();
-
-        $resumePath = $this->resume->storeAs('resumes', $this->resume->getClientOriginalName(), 'public');
-
-         // Create a new job application
-         UserApply::create([
-                'presentation' => $this->presentation,
-                'userUrl' => $this->userUrl,
-                'nameFile' => $this->resume->getClientOriginalName(),
-                'pathFile' => $resumePath,
-                'user_id' => $user_id,
-                'job_offer_id' => $jobId,
-            ]);
-            
-            $this->closeModal();
-            
-            // Show success message
-            session()->flash('message', '¡Tu solicitud ha sido enviada con éxito!');
-        
-        try {
-            // Store the resume file
-            // $resumePath = $this->.resume->store('resumes', 'public');
-        
-            
-        } catch (\Exception $e) {
-            session()->flash('error', 'Error al guardar el archivo. Por favor intenta de nuevo.');
-        }
-    }
-}
-
-?>
 
 <div>
     <!-- Main Content Area with Split View -->
@@ -345,7 +238,7 @@ new class extends Component
         <div class="fixed inset-0 z-50 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
             <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
                 <!-- Background overlay -->
-                <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true" wire:click="closeModal"></div>
+                <div class="fixed inset-0 bg-black/80 bg-opacity-75 transition-opacity" aria-hidden="true" wire:click="closeModal"></div>
                 
                 <!-- Modal panel -->
                 <div class="inline-block align-bottom bg-white dark:bg-gray-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
@@ -417,9 +310,15 @@ new class extends Component
                                     </div>
                                     
                                     <div class="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
-                                        <button type="submit" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm">
-                                            Enviar solicitud
-                                        </button>
+                                        @if ($resume)
+                                            <button type="submit" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm">
+                                                Enviar solicitud
+                                            </button>
+                                        @else
+                                            <button type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-gray-400 text-base font-medium text-white cursor-not-allowed sm:ml-3 sm:w-auto sm:text-sm">
+                                                Enviar solicitud
+                                            </button>
+                                        @endif
                                         <button type="button" wire:click="closeModal" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 dark:border-gray-600 shadow-sm px-4 py-2 bg-white dark:bg-gray-800 text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:w-auto sm:text-sm">
                                             Cancelar
                                         </button>

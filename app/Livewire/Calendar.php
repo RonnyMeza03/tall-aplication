@@ -2,8 +2,12 @@
 
 namespace App\Livewire;
 
+use App\Models\Country;
+use App\Models\JobOffer;
 use Livewire\Component;
 use Carbon\Carbon;
+use Illuminate\Contracts\Queue\Job;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Layout;
 
 class Calendar extends Component
@@ -13,6 +17,7 @@ class Calendar extends Component
     public $monthName;
     public $calendarDays = [];
     public $selectedEvent = null;
+    public $isEditing = false;
 
     public function mount()
     {
@@ -82,32 +87,41 @@ class Calendar extends Component
 
     private function getEventsForDate($date)
     {
-        // Aquí deberías recuperar los eventos de la base de datos
-        // Este es un ejemplo con datos ficticios
-        $allEvents = [
-            [
-                'id' => 1,
-                'title' => 'Reunión de equipo',
-                'date' => '2025-03-15',
-                'time' => '10:00',
-                'description' => 'Revisión semanal de proyectos',
-                'color' => '#4CAF50',
-                'textColor' => '#FFFFFF'
-            ],
-            [
-                'id' => 2,
-                'title' => 'Entrevista',
-                'date' => '2025-03-20',
-                'time' => '14:30',
-                'description' => 'Entrevista con candidato para el puesto de developer',
-                'color' => '#2196F3',
-                'textColor' => '#FFFFFF'
-            ],
-            // Añade más eventos según necesites
-        ];
+        $allEvents = [];
+
+        $userCompanies = Auth::user()->company;
+
+        foreach($userCompanies as $company) {
+            $allEvents = array_merge($allEvents, $company->jobOffers->map(function($jobOffer) use ($company) {
+                // Convert expires_at to a Carbon instance if it's a string
+                $expiresAt = $jobOffer->expires_at instanceof Carbon
+                    ? $jobOffer->expires_at
+                    : Carbon::parse($jobOffer->expires_at);
+                    
+                return [
+                    'id' => $jobOffer->id,
+                    'isActive' => $jobOffer->isActive,
+                    'jobTitle' => $jobOffer->jobTitle,
+                    'dateExp' => $expiresAt->format('Y-m-d'),
+                    'company' => $company->name,
+                    'description' => $jobOffer->description,
+                    'location' => $jobOffer->country->name,
+                    'country_id' => $jobOffer->country_id,
+                    'mode' => $jobOffer->mode,
+                    'workingHours' => $jobOffer->workingHours,
+                    'currency' => $jobOffer->currency,
+                    'minSalary' => $jobOffer->minSalary,
+                    'maxSalary' => $jobOffer->maxSalary,
+                    'company_id' => $company->name,
+                    'color' => $jobOffer->isActive ? '#4CAF50' : '#FF5722',
+                    'textColor' => $jobOffer->isActive ? '#FFFFFF' : '#000000',
+                ];
+            })->toArray());
+        }
         
+        // Filter events for the specified date
         return array_filter($allEvents, function($event) use ($date) {
-            return $event['date'] === $date;
+            return $event['dateExp'] === $date;
         });
     }
 
@@ -130,18 +144,82 @@ class Calendar extends Component
 
     public function editEvent($eventId)
     {
-        // Implementar lógica para editar eventos
+        $this->toggleEditMode();
     }
 
     public function deleteEvent($eventId)
     {
-        // Implementar lógica para eliminar eventos
+        JobOffer::destroy($eventId);
+        // Refresh calendar data
+        $this->refreshCalendar();
+
+        // Reset selected event
+        $this->selectedEvent = null;
+        
+        // Show success message
+        session()->flash('message', 'Evento eliminado exitosamente');
+        // Close the modal
+
         $this->closeEventModal();
+    }
+
+    public function toggleEditMode()
+    {
+        $this->isEditing = true;
+    }
+
+    public function cancelEdit()
+    {
+        $this->isEditing = false;
+        // Reload the original event data to discard changes
+        $this->showEvent($this->selectedEvent['id']);
+    }
+
+    public function saveEvent()
+    {
+        $this->validate([
+            'selectedEvent.jobTitle' => 'required',
+            'selectedEvent.dateExp' => 'required|date',
+            'selectedEvent.country_id' => 'required',
+            'selectedEvent.workingHours' => 'required',
+            'selectedEvent.currency' => 'required',
+            'selectedEvent.minSalary' => 'required|numeric',
+            'selectedEvent.maxSalary' => 'required|numeric|gte:selectedEvent.minSalary',
+            'selectedEvent.description' => 'required',
+        ]);
+        
+        // Update the event in the database
+        $event = JobOffer::find($this->selectedEvent['id']);
+        $event->update([
+            'jobTitle' => $this->selectedEvent['jobTitle'],
+            'expires_at' => $this->selectedEvent['dateExp'],
+            'country_id' => $this->selectedEvent['country_id'],
+            'mode' => $this->selectedEvent['mode'],
+            'workingHours' => $this->selectedEvent['workingHours'],
+            'currency' => $this->selectedEvent['currency'],
+            'minSalary' => $this->selectedEvent['minSalary'],
+            'maxSalary' => $this->selectedEvent['maxSalary'],
+            'description' => $this->selectedEvent['description'],
+            'isActive' => $this->selectedEvent['isActive'],
+        ]);
+        
+        // Exit edit mode
+        $this->isEditing = false;
+        
+        // Refresh calendar data
+        $this->refreshCalendar();
+
+        // Reset selected event
+        $this->selectedEvent = null;
+        
+        // Show success message
+        session()->flash('message', 'Evento actualizado exitosamente');
     }
 
     #[Layout('layouts.app')]
     public function render()
     {
-        return view('livewire.calendar');
+        $countries = Country::all()->pluck('name', 'id')->sort();
+        return view('livewire.calendar')->with(['countries' => $countries]);
     }
 }

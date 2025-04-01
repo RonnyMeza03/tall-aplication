@@ -3,6 +3,9 @@
 use App\Http\Controllers\JobOfferController;
 use App\Livewire\Calendar;
 use App\Livewire\Dashboard;
+use App\Livewire\JobFinder;
+use App\Livewire\MyTeam;
+use App\Livewire\UserProfile;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [JobOfferController::class, 'index'])
@@ -44,7 +47,7 @@ Route::view('company/{company}/myOffers/show/{offer}', 'job-offers.show')
     ->middleware(['auth'])
     ->name('job-offers.show');
 
-Route::view('myTeam', 'MyTeam')
+Route::get('myTeam', MyTeam::class)
     ->middleware(['auth'])
     ->name('MyTeam');
 
@@ -52,5 +55,12 @@ Route::get('/calendar', Calendar::class)
     ->middleware(['auth'])
     ->name('calendar');
 
+Route::get('user/empleos', JobFinder::class)
+    ->middleware(['auth'])
+    ->name('user.empleos');
+
+Route::get('user/profile', UserProfile::class)
+    ->middleware(['auth'])
+    ->name('user.profile');
 
 require __DIR__ . '/auth.php';

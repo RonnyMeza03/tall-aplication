@@ -1,4 +1,7 @@
 import './bootstrap';
+import ApexCharts from 'apexcharts';
+
+window.ApexCharts = ApexCharts;
 
 const dropdownBtn = document.getElementById('btnDropdown');
 const dropdownMenu = document.getElementById('menuDrop');

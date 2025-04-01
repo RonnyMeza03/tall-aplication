@@ -1,4 +1,4 @@
-<aside class="w-64 bg-gray-800 text-white p-4 flex flex-col h-screen overflow-y-auto">
+<aside class="w-64 bg-white dark:bg-gray-800 dark:text-white p-4 flex flex-col h-screen overflow-y-auto">
     <!-- Logo/Brand -->
     <div class="mb-6">
         <h1 class="text-2xl font-bold">JobFinder</h1>

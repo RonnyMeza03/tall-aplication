@@ -2,13 +2,14 @@
 
 use App\Http\Controllers\JobOfferController;
 use App\Livewire\Calendar;
+use App\Livewire\Dashboard;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [JobOfferController::class, 'index'])
     ->name('job-offers.index');
 
 
-Route::view('dashboard', 'dashboard')
+Route::get('dashboard', Dashboard::class)
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 

@@ -28,7 +28,7 @@
                 </header>
             @endif
             
-            <div class="flex flex-1 bg-gray-800 dark:bg-gray-900 overflow-hidden">
+            <div class="flex flex-1 bg-white dark:bg-gray-900 overflow-hidden">
                 <livewire:layout.sidebar />
                 <main class="flex-1 overflow-auto p-4 bg-gray-100 dark:bg-gray-900">
                     {{ $slot }}

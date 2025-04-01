@@ -54,6 +54,11 @@ class User extends Authenticatable
         return $this->hasOne(Perfil::class);
     }
 
+    // Total de ofertas 1. Auth::user()->company()->jobOffers()->count();
+    // Total de usuarios en las ofertas 2. Auth::user()->company()->jobOffers()->users()->count();
+    // Total de ofertas que estan por expirar 3. Auth::user()->company()->jobOffers()->where('expires_at', '<=', now()->addDays(7))->count();
+    // 4. Grafica de barras para ver el total de solicitudes top en la semana actual en una oferta, limite de 5 ofertas.
+    // 5. Listado de ofertas por expirar de forma tabular que muestre: nombre, descripción recortada, total de solicitudes, fecha de expiracion ordenados descendentemente por expiracion. 
     public function company()
     {
         return $this->belongsToMany(Company::class, 'user_company');

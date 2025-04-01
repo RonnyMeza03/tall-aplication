@@ -81,10 +81,8 @@ class Dashboard extends Component
         return [
             'categories' => $categories,
             'series' => [
-                [
-                    'name' => 'Solicitudes',
-                    'data' => $usersCount
-                ]
+                'name' => 'Solicitudes',
+                'data' => $usersCount
             ]
         ];
     }

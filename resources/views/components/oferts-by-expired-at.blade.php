@@ -35,7 +35,7 @@
                             </div>
                         </td>
                         <td class="p-4 dark:text-gray-400">{{ $offer->jobTitle }}</td>
-                        <td class="p-4 truncate dark:text-gray-400">{{ $offer->description }}</td>
+                        <td class="p-4 truncate dark:text-gray-400">{{ Str::limit($offer->description, 20, '...')  }}</td>
                         <td class="p-4">
                             <div class="inline-flex items-center gap-4 dark:text-gray-400">
                                 <x-icons.user class="w-5 h-5 text-gray-400 dark:text-gray-600" />

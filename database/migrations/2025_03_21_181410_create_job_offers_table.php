@@ -18,8 +18,8 @@ return new class extends Migration
             $table->text('description');
             $table->decimal('minSalary', 10, 2);
             $table->decimal('maxSalary', 10, 2);
-            $table->string('mode');
-            $table->enum('workingHours', ['full-time', 'part-time', 'remote']);
+            $table->enum('mode', ['remote', 'on-site', 'hybrid']);
+            $table->enum('workingHours', ['full-time', 'part-time', 'contract']);
             $table->string('currency');
             $table->foreignId('company_id')->references('id')->on('companies');
             $table->foreignId('country_id')->references('id')->on('countries');

@@ -6,5 +6,5 @@
     </div>
     
     <x-barchart :barchartData="$barchartData" />
-    <x-oferts-by-expired-at />
+    <x-oferts-by-expired-at :jobOffers="$jobOffersExpiredThisWeek" />
 </div>

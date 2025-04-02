@@ -1,6 +1,12 @@
 export default function initChart() {
     return {
         chart: null,
+        getTheme() {
+            if (document.documentElement.classList.contains('dark')) {
+              return 'dark';
+            }
+            return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        },
         init(chartData) {
             
             if (!chartData) { return; }
@@ -28,13 +34,27 @@ export default function initChart() {
                 },
                 xaxis: {
                     labels: {
-                        rotate: -45
+                        rotate: -45,
+                        style: {
+                            colors: this.getTheme() === "dark" ? "#FFFFFF" : "#000000",
+                        },
                     },
                     categories: chartData.categories,
                 },
                 yaxis: {
                     title: {
                         text: 'Solicitudes',
+                        style: {
+                            color: this.getTheme() === "dark" ? "#FFFFFF" : "#000000",
+                            fontWeight: 'medium',
+                            fontSize: '14px',
+                            fontFamily: 'Inter',
+                        },
+                    },
+                    labels: {
+                        style: {
+                            colors: this.getTheme() === "dark" ? "#FFFFFF" : "#000000",
+                        },
                     },
                 },
                 fill: {

@@ -17,6 +17,9 @@ class JobFinder extends Component
     public $selectedJobId = null;
     public $selectedJob = null;
     public $showModal = false;
+    public $currentPage = 1;
+    public $perPage = 10;
+    public $totalPages = 0;
     
     // Application form fields
     public $presentation = '';
@@ -46,13 +49,48 @@ class JobFinder extends Component
     
     public function mount()
     {
-        $this->jobOffers = JobOffer::where('isActive', true)->with(['company', 'country'])->get()->collect();
+        $this->loadJobs();
+    }
+
+    public function loadJobs()
+    {
+        $jobs = JobOffer::where('isActive', true)
+            ->with(['company', 'country'])
+            ->paginate($this->perPage, ['*'], 'page', $this->currentPage);
+        
+        $this->jobOffers = $jobs->items();
+        $this->totalPages = $jobs->lastPage();
+        
         // Optionally select the first job by default
-        if(count($this->jobOffers) > 0) {
-            $this->loadJobDetails($this->jobOffers->first()->id);
+        if(count($this->jobOffers) > 0 && is_null($this->selectedJobId)) {
+            $this->loadJobDetails($this->jobOffers[0]->id);
         }
     }
-    
+
+    public function nextPage()
+    {
+        if ($this->currentPage < $this->totalPages) {
+            $this->currentPage++;
+            $this->loadJobs();
+        }
+    }
+
+    public function previousPage()
+    {
+        if ($this->currentPage > 1) {
+            $this->currentPage--;
+            $this->loadJobs();
+        }
+    }
+
+    public function goToPage($page)
+    {
+        if ($page >= 1 && $page <= $this->totalPages) {
+            $this->currentPage = $page;
+            $this->loadJobs();
+        }
+    }
+
     public function openModal()
     {
         if (Auth::user())

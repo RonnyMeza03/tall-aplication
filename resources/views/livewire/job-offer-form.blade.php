@@ -90,11 +90,6 @@
                 </select>
                 @error('mode') <span class="text-red-500 dark:text-red-400 text-sm mt-1 block">{{ $message }}</span> @enderror
             </div>
-            {{-- <div>
-                <label class="block text-gray-700 dark:text-gray-300 font-medium mb-2">Modo de trabajo:</label>
-                <input type="text" wire:model="mode" class="w-full border border-gray-300 dark:border-gray-600 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200 transition">
-                @error('mode') <span class="text-red-500 dark:text-red-400 text-sm mt-1 block">{{ $message }}</span> @enderror
-            </div> --}}
 
             <div>
                 <label class="block text-gray-700 dark:text-gray-300 font-medium mb-2">Horas de Trabajo:</label>

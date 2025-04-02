@@ -46,7 +46,7 @@ class JobFinder extends Component
     
     public function mount()
     {
-        $this->jobOffers = JobOffer::with(['company', 'country'])->get()->collect();
+        $this->jobOffers = JobOffer::where('isActive', true)->with(['company', 'country'])->get()->collect();
         // Optionally select the first job by default
         if(count($this->jobOffers) > 0) {
             $this->loadJobDetails($this->jobOffers->first()->id);
@@ -114,6 +114,8 @@ class JobFinder extends Component
     #[Layout('layouts.app')]
     public function render()
     {
-        return view('livewire.job-finder');
+        $userApplies = UserApply::where('user_id', Auth::id())->get();
+        
+        return view('livewire.job-finder')->with(['userApplies' => $userApplies]);
     }
 }

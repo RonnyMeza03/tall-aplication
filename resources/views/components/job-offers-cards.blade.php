@@ -3,25 +3,25 @@
 ])
 
 <div class="space-y-6 relative w-full h-min bg-white rounded-lg shadow-xs hover:shadow-lg transition duration-300 ease-in-out dark:bg-gray-800 dark:shadow-none dark:hover:shadow-none p-8">
-    <h3 class="text-xl font-semibold">Ofertas de trabajo</h3>
+    <h3 class="text-xl font-semibold dark:text-white">Ofertas de trabajo</h3>
 
     @forelse ($jobs->take(4) as $job)
-        <div class="space-y-4 border-b border-gray-200 pb-6 last:border-b-0 last:pb-0">
+        <div class="space-y-4 border-b border-gray-200 pb-6 dark:border-gray-700 last:border-b-0 last:pb-0">
             <div class="overflow-hidden w-full">
-                <h5 class="text-lg font-medium text-gray-900 line-clamp-2">{{ $job->job_title }}</h5>
-                <div class="flex items-center gap-1 flex-row flex-wrap">
-                    <p class="text-gray-600 font-base line-clamp-1">{{ $job->country_name }}</p>
-                    <span class="bg-gray-100 px-2 py-1.5 text-gray-700 text-xs font-medium rounded-full ">
+                <h5 class="text-lg font-medium text-gray-900 dark:text-gray-200 line-clamp-2">{{ $job->job_title }}</h5>
+                <div class="flex items-center gap-2 flex-row flex-wrap">
+                    <p class="text-gray-600 font-base line-clamp-1 dark:text-gray-400">{{ $job->country_name }}</p>
+                    <span class="bg-gray-100 px-2 py-1.5 text-gray-700 text-xs font-medium rounded-full dark:bg-gray-600 dark:border-gray-700 dark:text-gray-50">
                         {{ $job->job_workingHours }}
                     </span>
-                    <span class="bg-gray-100 px-2 py-1.5 text-gray-700 text-xs font-medium rounded-full ">
+                    <span class="bg-gray-100 px-2 py-1.5 text-gray-700 text-xs font-medium rounded-full dark:bg-gray-600 dark:border-gray-700 dark:text-gray-50">
                         Publicado el {{ date_format(date_create($job->job_created_at), 'Y/m/d') }}
                     </span>
                 </div>
             </div>
             <div class="">
                 <div class="flex items-center justify-between gap-2">
-                    <div class="grid grid-cols-[auto_1fr] items-center gap-2 text-gray-600 text-sm font-medium">
+                    <div class="grid grid-cols-[auto_1fr] items-center gap-2 text-gray-600 dark:text-gray-400 text-sm font-medium">
                         <svg 
                             xmlns="http://www.w3.org/2000/svg" 
                             width="24" 

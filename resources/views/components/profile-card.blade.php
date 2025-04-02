@@ -13,18 +13,22 @@
         <img 
             src="https://ui-avatars.com/api/?name={{ auth()->user()->name }}" 
             alt="Imagen de Perfil"
-            class="rounded-full w-40 h-40 border-4 border-white shadow-lg object-cover"
+            class="rounded-full w-40 h-40 border-4 border-white dark:border-gray-700 shadow-lg object-cover"
         >
         <div class="w-full grid grid-cols-1 lg:grid-cols-[70%_30%] gap-4">
             <div class="block space-y-1">
                 <div class="flex items-end gap-2 flex-wrap">
-                    <p class="font-semibold antialiased text-4xl line-clamp-2 leading-12">
+                    <p class="font-semibold antialiased text-4xl line-clamp-2 leading-12 dark:text-white">
                         {{ auth()->user()->name }}
                     </p>
-                    <span class="p-2 border border-gray-100 rounded-full bg-gray-50 text-xs text-gray-800 font-medium">Cuenta creada el {{ auth()->user()->created_at }}</span>
+                    <span 
+                        class="p-2 border border-gray-100 rounded-full bg-gray-50 text-xs text-gray-800 font-medium dark:bg-gray-600 dark:border-gray-700 dark:text-gray-50"
+                    >
+                        Cuenta creada el {{ auth()->user()->created_at }}
+                    </span>
                 </div>
-                <small class="text-xl antialiased text-gray-700 line-clamp-1">{{ auth()->user()->email }}</small>
-                <p class="text-base mt-2 text-gray-500 antialiased line-clamp-1">{{ $country }}</p>
+                <small class="text-xl antialiased text-gray-700 line-clamp-1 dark:text-gray-300">{{ auth()->user()->email }}</small>
+                <p class="text-base mt-2 text-gray-500 antialiased line-clamp-1 dark:text-gray-500">{{ $country }}</p>
             </div>
             <div class="grid grid-cols-1 gap-3">
                 @foreach ($jobs->take(2) as $job)
@@ -34,7 +38,7 @@
                             alt="Imagen de Empresa"
                             class="size-12 shrink-0 rounded-sm"
                         >
-                        <h4 class="line-clamp-2 text-lg font-medium text-gray-700 antialiased">
+                        <h4 class="line-clamp-2 text-lg font-medium text-gray-700 antialiased dark:text-gray-300">
                             {{ $job->company_name }}
                         </h4>
                     </div>

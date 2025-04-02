@@ -7,6 +7,7 @@ use App\Models\Company;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Country;
+use App\Models\JobOffer;
 use App\Models\Tag;
 use PHPUnit\Framework\Constraint\Count;
 
@@ -47,44 +48,81 @@ class CompanyFactory extends Factory
                 ['company_id' => $company->id]
             );
 
-            $topics = ['Ciencia de datos', 
-                        'Desarrollo web', 
-                        'Desarrollo móvil', 
-                        'Ciberseguridad', 
-                        'Inteligencia artificial', 
-                        'Big data', 
-                        'Blockchain', 
-                        'Realidad aumentada', 
-                        'Realidad virtual', 
-                        'Internet de las cosas',
-                        'Computación en la nube',
-                        'Desarrollo de videojuegos',
-                        'Robótica',
-                        'administracion de empresas',
-                        'marketing',
-                        'diseño grafico',
-                        'redes sociales',
-                        'ventas',
-                        'atencion al cliente',
-                        'recursos humanos',
-                        'contabilidad',
-                        'finanzas',
-                        'logistica',
-                        'mecanica',
-                        'electricidad',
-                        'electronica',
-                        'Architectura',
-                        'Ingenieria civil',
-                        'Docencia',
-                        'Medicina',
-                        'Enfermeria',
-                        'Mensajeria',
-                        'Transporte',
-                        'Construccion',
-                        'Mantenimiento',];
+            $topics = [
+                // Categorías generales
+                "Desarrollo de Software",
+                "Diseño y Creatividad",
+                "Marketing y Ventas",
+                "Finanzas y Contabilidad",
+                "Administración y Recursos Humanos",
+                "Salud y Medicina",
+                "Educación y Formación",
+                "Construcción e Ingeniería",
+                "Logística y Transporte",
+                "Atención al Cliente",
+                "Legal y Consultoría",
+                "Ciencia e Investigación",
+              
+                // Específicas para Tecnología
+                "Frontend Developer",
+                "Backend Developer",
+                "Fullstack Developer",
+                "DevOps Engineer",
+                "Data Scientist",
+                "Machine Learning Engineer",
+                "UX/UI Designer",
+                "QA Tester",
+                "Product Manager",
+                "Cybersecurity Analyst",
+                "Blockchain Developer",
+              
+                // Marketing y Ventas
+                "Digital Marketing",
+                "SEO Specialist",
+                "Community Manager",
+                "Copywriter",
+                "Growth Hacker",
+                "Sales Representative",
+              
+                // Administración y Finanzas
+                "Contador",
+                "Analista Financiero",
+                "Recursos Humanos",
+                "Reclutador",
+                "Asistente Administrativo",
+              
+                // Otros
+                "Médico General",
+                "Enfermero/a",
+                "Ingeniero Civil",
+                "Arquitecto",
+                "Chef",
+                "Conductor",
+                "Profesor",
+              ];
 
             foreach ($topics as $topic) {
                 Tag::factory()->create(['name' => $topic]);
+            }
+            for($i = 0; $i < 20; $i++){
+                $offer = JobOffer::factory()
+                ->create([
+                    'isActive' => true,
+                    'jobTitle' => fake()->unique()->jobTitle(),
+                    'description' => fake()->text(),
+                    'minSalary' => fake()->numberBetween(1000, 5000),
+                    'maxSalary' => fake()->numberBetween(5000, 10000),
+                    'mode' => fake()->randomElement(['remote', 'on-site', 'hybrid']),
+                    'workingHours' => fake()->randomElement(['full-time', 'part-time']),
+                    'currency' => fake()->randomElement(['USD', 'EUR', 'GBP']),
+                    'expires_at' => fake()->dateTimeBetween('now', '+1 month'),
+                    'company_id' => $company->id,
+                    'country_id' => $company->country_id,
+                    'user_id' => $company->users()->first()->id,
+                ]);
+                $offer->tags()->attach(
+                    Tag::inRandomOrder()->take(3)->pluck('id')->toArray()
+                );
             }
         });
     }

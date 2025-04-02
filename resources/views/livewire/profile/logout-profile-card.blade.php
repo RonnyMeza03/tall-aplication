@@ -19,8 +19,8 @@ new class extends Component
 
 <div class="grid grid-cols-[1fr_auto] gap-1.5">
     <div class="block space-y-2 overflow-hidden">
-        <h2 class="text-xl font-semibold antialiased truncate">Cerrar sesión</h2>
-        <p class="text-gray-600 tex-base antialiased">
+        <h2 class="text-xl font-semibold antialiased truncate dark:text-white">Cerrar sesión</h2>
+        <p class="text-gray-600 tex-base antialiased dark:text-gray-400">
             Haz clic en el botón de cerrar sesión a continuación.
         </p>
     </div>

@@ -15,9 +15,11 @@ new class extends Component {
 
 <div x-data="{ profileUrl: '{{ $profileUrl }}', copied: false }" class="grid grid-cols-[1fr_auto] gap-1.5">
     <div class="block space-y-2 overflow-hidden">
-        <h2 class="text-xl font-semibold antialiased truncate">URL y perfil público</h2>
+        <h2 class="text-xl font-semibold antialiased truncate dark:text-white">URL y perfil público</h2>
         <a href="{{ $profileUrl }}" target="_blank" rel="noopener noreferrer"
-            class="text-gray-600 tex-base antialiased underline underline-offset-2 hover:text-gray-900">
+            class="text-gray-600 tex-base antialiased underline underline-offset-2 hover:text-gray-900
+            dark:text-gray-400 dark:hover:text-gray-300"
+        >
             {{ $profileUrl }}
         </a>
     </div>
@@ -25,7 +27,10 @@ new class extends Component {
         <svg x-show="!copied" x-on:click="$clipboard(profileUrl); copied = true; setTimeout(() => copied = false, 2000)"
             xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-            class="lucide lucide-clipboard-copy-icon lucide-clipboard-copy text-gray-600 hover:text-gray-700 transition-all duration-300 ease-in-out cursor-pointer size-6">
+            class="lucide lucide-clipboard-copy-icon lucide-clipboard-copy text-gray-600 hover:text-gray-700 transition-all duration-300 ease-in-out cursor-pointer size-6
+            dark:text-gray-400 dark:hover:text-gray-300"
+        
+        >
             <rect width="8" height="4" x="8" y="2" rx="1" ry="1" />
             <path d="M8 4H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" />
             <path d="M16 4h2a2 2 0 0 1 2 2v4" />

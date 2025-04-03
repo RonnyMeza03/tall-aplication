@@ -23,8 +23,8 @@ new class extends Component
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}" wire:navigate>
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
+                    <a href="/" wire:navigate>
+                        <x-application-logo class="block h-10 w-auto fill-current text-gray-800 dark:text-gray-200 border rounded-lg border-gray-200" />
                     </a>
                 </div>
 
@@ -59,13 +59,13 @@ new class extends Component
 
                     <x-slot name="content">
                         <x-dropdown-link :href="route('user.profile')" wire:navigate>
-                            {{ __('Profile') }}
+                            {{ __('Perfil de usuario') }}
                         </x-dropdown-link>
 
                         <!-- Authentication -->
-                        <button wire:click="logout" class="w-full text-start">
+                        <button wire:click="logout" class="w-full text-start cursor-pointer">
                             <x-dropdown-link>
-                                {{ __('Log Out') }}
+                                {{ __('Cerrar Sesión') }}
                             </x-dropdown-link>
                         </button>
                     </x-slot>

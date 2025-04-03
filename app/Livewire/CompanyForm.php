@@ -22,18 +22,17 @@ class CompanyForm extends Component
 
     public function submit()
     {
-
-        $logoPath = $this->logo->store('logos', 'public');
-
         $this->validate([
             'name' => 'required',
             'description' => 'required',
             'address' => 'required',
             'email' => 'required',
-            'logo' => 'required',
+            'logo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'website' => 'required',
             'country_id' => 'required',
         ]);
+
+        $logoPath = $this->logo->store('logos', 'public');
 
         $newCompany = Company::create([
             'name' => $this->name,

@@ -69,7 +69,7 @@ new #[Layout('layouts.guest')] class extends Component
     }
 }; ?>
 
-<div>
+<div class="p-4">
     <form wire:submit="resetPassword">
         <!-- Email Address -->
         <div>

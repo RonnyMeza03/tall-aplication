@@ -65,36 +65,18 @@
                     <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-8">Categorías populares</h3>
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                         @php
-                            $categories = [
-                                [
-                                    'icon' =>
-                                        'M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z',
-                                    'name' => 'Desarrollo Web',
-                                    'count' => 357,
-                                    'color' => 'blue',
-                                ],
-                                [
-                                    'icon' =>
-                                        'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z',
-                                    'name' => 'Marketing Digital',
-                                    'count' => 289,
-                                    'color' => 'green',
-                                ],
-                                [
-                                    'icon' =>
-                                        'M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4',
-                                    'name' => 'Diseño UX/UI',
-                                    'count' => 215,
-                                    'color' => 'purple',
-                                ],
-                                [
-                                    'icon' =>
-                                        'M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z',
-                                    'name' => 'Atención al Cliente',
-                                    'count' => 183,
-                                    'color' => 'red',
-                                ],
-                            ];
+                        use App\Models\Tag;
+                        use App\Models\JobOffer;
+                           $categories = Tag::with(['jobTag' => function ($query) {
+                               $query->where('isActive', true);
+                           }])->get()->map(function ($category) {
+                               return [
+                                   'name' => $category->name,
+                                   'count' => $category->jobTag->count(),
+                                   'color' => $category->color,
+                                   'logo' => $category->logo,
+                               ];
+                           })->sortByDesc('count')->take(4)->values();
                         @endphp
 
                         @foreach ($categories as $category)
@@ -105,8 +87,7 @@
                                     <svg xmlns="http://www.w3.org/2000/svg"
                                         class="h-6 w-6 text-{{ $category['color'] }}-600 dark:text-{{ $category['color'] }}-400"
                                         fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="{{ $category['icon'] }}" />
+                                        <img src="{{asset('storage/'. $category['logo'])}}" alt="">
                                     </svg>
                                 </div>
                                 <h4 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">

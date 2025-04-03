@@ -97,24 +97,75 @@ class CompanyFactory extends Factory
                 "Sales Representative",
               
                 // Administración y Finanzas
-                "Contador",
-                "Analista Financiero",
-                "Recursos Humanos",
                 "Reclutador",
                 "Asistente Administrativo",
               
                 // Otros
-                "Médico General",
-                "Enfermero/a",
-                "Ingeniero Civil",
-                "Arquitecto",
                 "Chef",
                 "Conductor",
                 "Profesor",
               ];
 
+              $topicLogos = [
+                'Desarrollo de Software' => 'tags_logos/code.png',
+                'Diseño y Creatividad' => 'tags_logos/brush.png',
+                'Marketing y Ventas' => 'tags_logos/circle-dollar-sign.png',
+                'Finanzas y Contabilidad' => 'tags_logos/wallet.png',
+                'Administración y Recursos Humanos' => 'tags_logos/person-standing.png',
+                'Salud y Medicina' => 'tags_logos/heart-pulse.png',
+                'Educación y Formación' => 'tags_logos/book-marked.png',
+                'Construcción e Ingeniería' => 'tags_logos/hard-hat.png',
+                'Logística y Transporte' => 'tags_logos/warehouse.png',
+                'Atención al Cliente' => 'tags_logos/headset.png',
+                'Legal y Consultoría' => 'tags_logos/scale.png',
+                'Ciencia e Investigación' => 'tags_logos/microscope.png',
+                'Frontend Developer' => 'tags_logos/laptop-minimal.png',
+                'Backend Developer' => 'tags_logos/server.png',
+                'Fullstack Developer' => 'tags_logos/computer.png',
+                'DevOps Engineer' => 'tags_logos/workflow.png',
+                'Data Scientist' => 'tags_logos/between-horizontal-end.png',
+                'Machine Learning Engineer' => 'tags_logos/bot.png',
+                'UX/UI Designer' => 'tags_logos/palette.png',
+                'QA Tester' => 'tags_logos/bug-play.png',
+                'Product Manager' => 'tags_logos/square-chart-gantt.png',
+                'Cybersecurity Analyst' => 'tags_logos/shield-half.png',
+                'Blockchain Developer' => 'tags_logos/link-2-off.png',
+                'Digital Marketing' => 'tags_logos/megaphone.png',
+                'SEO Specialist' => 'tags_logos/search.png',
+                'Community Manager' => 'tags_logos/user.png',
+                'Copywriter' => 'tags_logos/pen.png',
+                'Growth Hacker' => 'tags_logos/sword.png',
+                'Sales Representative' => 'tags_logos/handshake.png',
+
+                'Reclutador' => 'tags_logos/user-plus.png',
+                'Asistente Administrativo' => 'tags_logos/clipboard-pen.png',
+                'Chef' => 'tags_logos/chef-hat.png',
+                'Conductor' => 'tags_logos/car.png',
+                'Profesor' => 'tags_logos/book-type.png',
+              ];
+
             foreach ($topics as $topic) {
-                Tag::factory()->create(['name' => $topic]);
+                // Verificar si el logo ya existe en el almacenamiento
+                if (!Storage::disk('public')->exists($topicLogos[$topic])) {
+                    // Si no existe, copiar el logo al almacenamiento público
+                    Storage::disk('public')->put($topicLogos[$topic], file_get_contents(public_path($topicLogos[$topic])));
+                }
+                // Crear la etiqueta en la base de datos
+                // y asignar el logo correspondiente
+                // Verificar si la etiqueta ya existe
+                $existingTag = Tag::where('name', $topic)->first();
+                if ($existingTag) {
+                    // Si la etiqueta ya existe, continuar con la siguiente iteración
+                    continue;
+                }
+                // Si la etiqueta no existe, crearla
+                // y asignar el logo correspondiente
+                // Crear la etiqueta en la base de datos
+                // y asignar el logo correspondiente
+                Tag::create([
+                    'name' => $topic,
+                    'logo' => $topicLogos[$topic] ?? null, // Asignar el logo si existe
+                ]);
             }
             for($i = 0; $i < 20; $i++){
                 $offer = JobOffer::factory()

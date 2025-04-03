@@ -9,13 +9,19 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\Country;
 use App\Models\JobOffer;
 use App\Models\Tag;
+use Livewire\Features\SupportFileUploads\WithFileUploads;
 use PHPUnit\Framework\Constraint\Count;
+use Illuminate\Support\Facades\Storage;
+
+use function Livewire\store;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Company>
  */
 class CompanyFactory extends Factory
 {
+    use WithFileUploads;
+
     /**
      * Define the model's default state.
      *
@@ -23,10 +29,16 @@ class CompanyFactory extends Factory
      */
     public function definition(): array
     {
+        // Copiar la imagen al almacenamiento público y obtener la ruta
+        $logoPath = 'logos/JobFinderLogo.png';
+        if (!Storage::disk('public')->exists($logoPath)) {
+            Storage::disk('public')->put($logoPath, file_get_contents(public_path('JobFinderLogo.png')));
+        }
+
         return [
             'name' => 'JobFinder INC',
             'email' => fake()->unique()->safeEmail(),
-            'logo' => 'https://ui-avatars.com/api/?name=JF&background=0D8ABC&color=fff',
+            'logo' => $logoPath, // Guardar la ruta relativa en la base de datos
             'website' => fake()->url(),
             'description' => fake()->text(),
             'address' => fake()->address(),

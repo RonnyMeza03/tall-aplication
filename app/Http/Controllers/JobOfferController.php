@@ -12,7 +12,7 @@ class JobOfferController extends Controller
      */
     public function index()
     {
-        $jobsOffers = JobOffer::all();
+        $jobsOffers = JobOffer::orderBy('created_at', 'desc')->take(6)->get();
 
         return view('welcome', compact('jobsOffers'));
     }

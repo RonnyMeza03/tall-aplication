@@ -27,7 +27,7 @@
                     <tr>
                         <td class="p-4">
                             <div class="flex w-max items-center gap-2">
-                                <img class="size-10 rounded-full object-cover" src="{{ $offer->company->logo }}" alt="user avatar" />
+                                <img class="size-10 rounded-full object-cover" src="{{ asset('storage/'. $offer->company->logo ) }}" alt="user avatar" />
                                 <div class="flex flex-col">
                                     <span class="text-neutral-900 dark:text-white">{{ $offer->company->name }}</span>
                                     <span class="text-sm text-neutral-600 opacity-85 dark:text-neutral-300">{{ $offer->company->email }}</span>

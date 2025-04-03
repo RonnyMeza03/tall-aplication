@@ -1,6 +1,7 @@
 <?php
 
 use Livewire\Volt\Component;
+use App\Models\Perfil;
 
 new class extends Component {
 
@@ -8,7 +9,14 @@ new class extends Component {
 
     public function mount()
     {
-        $this->profileUrl = 'www.linkedin.com/in/ronny-meza-o124124';
+        $requestId = request()->route('user');
+
+        if ($requestId) {
+            $userProfile = Perfil::where('id', $requestId)->first();
+            $this->profileUrl = $userProfile->url;
+        } else {
+            $this->profileUrl = auth()->user()->perfil->url;
+        }
     }
 
 }; ?>
@@ -16,7 +24,7 @@ new class extends Component {
 <div x-data="{ profileUrl: '{{ $profileUrl }}', copied: false }" class="grid grid-cols-[1fr_auto] gap-1.5">
     <div class="block space-y-2 overflow-hidden">
         <h2 class="text-xl font-semibold antialiased truncate dark:text-white">URL y perfil público</h2>
-        <a href="{{ $profileUrl }}" target="_blank" rel="noopener noreferrer"
+        <a href="{{ $profileUrl }}" wire:navigate target="_blank" rel="noopener noreferrer"
             class="text-gray-600 tex-base antialiased underline underline-offset-2 hover:text-gray-900
             dark:text-gray-400 dark:hover:text-gray-300"
         >

@@ -12,7 +12,8 @@ class Perfil extends Model
     protected $fillable = [
         'user_id',
         'phone',
-        'role'
+        'role',
+        'url'
     ];
 
     public function user()

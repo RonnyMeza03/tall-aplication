@@ -63,4 +63,8 @@ Route::get('user/profile', UserProfile::class)
     ->middleware(['auth'])
     ->name('user.profile');
 
+Route::get('user/profile/{user}', UserProfile::class)
+    ->middleware(['auth'])
+    ->name('user.profile.show');
+
 require __DIR__ . '/auth.php';

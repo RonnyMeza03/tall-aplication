@@ -56,25 +56,6 @@
                                 Miles de ofertas de empleo te esperan. Conectamos a los mejores talentos con las
                                 empresas más innovadoras.
                             </p>
-                            <div class="mt-8">
-                                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4">
-                                    <form class="flex flex-col md:flex-row gap-4">
-                                        <div class="flex-grow">
-                                            <input type="text" name="search"
-                                                placeholder="¿Qué trabajo estás buscando?"
-                                                class="w-full px-4 py-3 rounded-md border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                        </div>
-                                        <div class="flex-grow">
-                                            <input type="text" name="location" placeholder="Ubicación"
-                                                class="w-full px-4 py-3 rounded-md border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                        </div>
-                                        <button type="submit"
-                                            class="px-6 py-3 bg-blue-600 dark:bg-blue-500 text-white rounded-md hover:bg-blue-700 dark:hover:bg-blue-600 font-medium">
-                                            Buscar
-                                        </button>
-                                    </form>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </section>

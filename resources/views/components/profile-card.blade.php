@@ -1,4 +1,5 @@
 @props([
+    'user' => '',
     'country' => '',
     'jobs' => []
 ])
@@ -11,7 +12,7 @@
     >
     <div class="relative z-20 pt-12 sm:pt-44 space-y-4">
         <img 
-            src="https://ui-avatars.com/api/?name={{ auth()->user()->name }}" 
+            src="https://ui-avatars.com/api/?name={{ $user ? $user->name : auth()->user()->name }}&background=0D8ABC&color=fff&size=512" 
             alt="Imagen de Perfil"
             class="rounded-full w-40 h-40 border-4 border-white dark:border-gray-700 shadow-lg object-cover"
         >
@@ -19,15 +20,15 @@
             <div class="block space-y-1">
                 <div class="flex items-end gap-2 flex-wrap">
                     <p class="font-semibold antialiased text-4xl line-clamp-2 leading-12 dark:text-white">
-                        {{ auth()->user()->name }}
+                        {{ $user ? $user->name : auth()->user()->name }}
                     </p>
                     <span 
                         class="p-2 border border-gray-100 rounded-full bg-gray-50 text-xs text-gray-800 font-medium dark:bg-gray-600 dark:border-gray-700 dark:text-gray-50"
                     >
-                        Cuenta creada el {{ auth()->user()->created_at }}
+                        Cuenta creada el {{ $user ? $user->created_at : auth()->user()->created_at }}
                     </span>
                 </div>
-                <small class="text-xl antialiased text-gray-700 line-clamp-1 dark:text-gray-300">{{ auth()->user()->email }}</small>
+                <small class="text-xl antialiased text-gray-700 line-clamp-1 dark:text-gray-300">{{ $user ? $user->email : auth()->user()->email }}</small>
                 <p class="text-base mt-2 text-gray-500 antialiased line-clamp-1 dark:text-gray-500">{{ $country }}</p>
             </div>
             <div class="grid grid-cols-1 gap-3">

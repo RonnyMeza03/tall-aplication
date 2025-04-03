@@ -41,7 +41,7 @@ new #[Layout('layouts.guest')] class extends Component {
 
         event(new Registered(($user = User::create($validated))));
 
-        $user->perfil()->create(['role' => 'user', 'phone' => '']);
+        $user->perfil()->create(['role' => 'user', 'phone' => '', 'url' => route('user.profile.show', $user->id)]);
 
         Auth::login($user);
 

@@ -57,7 +57,7 @@
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">{{$apply->user->name}}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-300">{{$apply->presentation}}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm">
-                            <a href="{{$apply->userUrl}}" class="text-blue-500 hover:underline dark:text-blue-400">Ver perfil</a>
+                            <a href="{{$apply->userUrl}}" wire:navigate class="text-blue-500 hover:underline dark:text-blue-400">Ver perfil</a>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm">
                             <button wire:click="download('{{$apply->pathFile}}')" class="text-blue-500 hover:underline hover:cursor-pointer dark:text-blue-400">{{$apply->nameFile}}</button>

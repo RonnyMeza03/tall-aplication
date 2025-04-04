@@ -17,7 +17,7 @@ class Dashboard extends Component
     public $jobOffersExpiredThisWeek = [];
     public $barchartData = [];
     public $currentPage = 1;
-    public $perPage = 10;
+    public $perPage = 5;
     public $totalPages = 0;
 
     public function mount()
@@ -41,39 +41,42 @@ class Dashboard extends Component
             ->count('job_offers.id');
         
         $this->barchartData = $this->loadBarChartData();
-
-        $this->jobOffersExpiredThisWeek = $this->getExpiringOffersThisWeek();
+        
+        $result = $this->getExpiringOffersThisWeek();
+        $this->jobOffersExpiredThisWeek = $result['data'];
+        $this->currentPage = $result['current_page'];
+        $this->totalPages = $result['last_page'];
     }
 
     public function nextPage()
     {
-        $this->currentPage++;
-        $this->loadJobs();
+        if ($this->currentPage < $this->totalPages) {
+            $this->currentPage++;
+            $this->loadJobs();
+        }
     }
     public function previousPage()
     {
-        $this->currentPage--;
-        $this->loadJobs();
+        if ($this->currentPage > 1) {
+            $this->currentPage--;
+            $this->loadJobs();
+        }
     }
-    public function loadJobs()
-    {
-        $this->totalPages = Auth::user()
-            ->company()
-            ->join('job_offers', 'companies.id', '=', 'job_offers.company_id')
-            ->count('job_offers.id');
 
-        $this->jobOffersExpiredThisWeek = Auth::user()
-            ->company()
-            ->join('job_offers', 'companies.id', '=', 'job_offers.company_id')
-            ->where('job_offers.expires_at', '<=', now()->addDays(7))
-            ->paginate($this->perPage, ['*'], 'page', $this->currentPage);
-    }
     public function goToPage($page)
     {
-        if ($page >= 1 && $page <= $this->totalPages) {
+        if ($page > 0 && $page <= $this->totalPages) {
             $this->currentPage = $page;
             $this->loadJobs();
         }
+    }
+
+    public function loadJobs()
+    {
+        $result = $this->getExpiringOffersThisWeek();
+        $this->jobOffersExpiredThisWeek = $result['data'];
+        $this->currentPage = $result['current_page'];
+        $this->totalPages = $result['last_page'];
     }
 
     private function getExpiringOffersThisWeek()
@@ -94,8 +97,23 @@ class Dashboard extends Component
                 $offer->total_users_applied = $offer->users->unique('id')->count();
                 return $offer;
             });
-    
-        return $offers;
+        
+        // Calculate total
+        $total = $offers->count();
+        
+        // Get paginated data
+        $items = $offers->forPage($this->currentPage, $this->perPage)->values();
+        
+        // Set total pages
+        $this->totalPages = ceil($total / $this->perPage);
+        
+        return [
+            'data' => $items,
+            'current_page' => $this->currentPage,
+            'per_page' => $this->perPage,
+            'total' => $total,
+            'last_page' => $this->totalPages
+        ];
     }
 
     private function loadBarChartData()

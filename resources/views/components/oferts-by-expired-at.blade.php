@@ -1,5 +1,8 @@
 @props([
     'jobOffers' => [],
+    'currentPage' => 1,
+    'totalPages' => 1,
+    'totalJobOffers' => 0,
 ])
 
 <div
@@ -50,7 +53,7 @@
             @endforeach
         </table>
         <!-- Pagination Controls -->
-        {{-- <div class="px-4 py-3 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
+        <div class="px-4 py-3 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
             <div class="flex items-center justify-between">
                 <div class="flex-1 flex justify-between sm:hidden">
                     <button wire:click="previousPage" 
@@ -100,7 +103,7 @@
                     </div>
                 </div>
             </div>
-        </div> --}}
+        </div>
     @else
         <div class="w-full grid grid-cols-1 place-items-center gap-4 py-12">
             <x-icons.circle-help class="w-20 h-20 text-gray-400 dark:text-gray-600" />

@@ -17,10 +17,10 @@
                             </span>
                         @endif
                         
-                        <h2 class="text-5xl leading-14 sm:leading-20 sm:text-7xl font-bold text-gray-900">
+                        <h2 class="text-5xl leading-14 sm:leading-20 sm:text-7xl font-bold text-gray-900 dark:text-white">
                             {{ $selectedJob->jobTitle }}
                         </h2>
-                        <h4 class="text-lg text-gray-800 mt-8 sm:max-w-[70%] font-medium line-clamp-3">
+                        <h4 class="text-lg text-gray-800 dark:text-gray-400 mt-8 sm:max-w-[70%] font-medium line-clamp-3">
                             @if($selectedJob->description)
                                 {!! nl2br(e($selectedJob->description)) !!}
                             @else
@@ -68,29 +68,29 @@
             </div>                    
         @else
             <div class="grid grid-cols-1 gap-x-10 gap-y-3 lg:grid-cols-[35rem_1fr]">
-                <div class="w-full h-[37.5rem] bg-gray-300 flex items-center justify-center rounded-lg shadow-md hover:shadow-xl object-cover transition-all duration-300 ease-in-out overflow-hidden group">
+                <div class="w-full h-[37.5rem] bg-gray-300 dark:bg-gray-800 flex items-center justify-center rounded-lg shadow-md hover:shadow-xl object-cover transition-all duration-300 ease-in-out overflow-hidden group">
                     <x-icons.image class="size-50 stroke-1 text-gray-400" />
                 </div>
                 <div class="grid grid-cols-1 items-center">
                     <div class="block">
                         <div class="flex items-center gap-2">
-                            <div class="h-8 border-l-3 border-gray-400 text-2xl"></div>
-                            <div class="h-8 w-60 bg-gray-300 rounded-md"></div>
+                            <div class="h-8 border-l-3 border-gray-400 dark:border-gray-700 text-2xl"></div>
+                            <div class="h-8 w-60 bg-gray-300 dark:bg-gray-800 rounded-md"></div>
                         </div>
-                        <div class="h-12 w-96 bg-gray-300 rounded-md mt-6"></div>
+                        <div class="h-12 w-96 bg-gray-300 dark:bg-gray-800 rounded-md mt-6"></div>
                         <div class="space-y-2 mt-8">
-                            <div class="h-5 w-[32rem] bg-gray-300 rounded-md"></div>
-                            <div class="h-5 w-[24rem] bg-gray-300 rounded-md"></div>
+                            <div class="h-5 w-[32rem] bg-gray-300 dark:bg-gray-800 rounded-md"></div>
+                            <div class="h-5 w-[24rem] bg-gray-300 dark:bg-gray-800 rounded-md"></div>
                         </div>
                         <div class="flex items-start flex-wrap gap-2 mt-6">
-                            <span class="rounded-full bg-gray-300 h-6 w-40"></span>
-                            <span class="rounded-full bg-gray-300 h-6 w-40"></span>
-                            <span class="rounded-full bg-gray-300 h-6 w-40"></span>
+                            <span class="rounded-full bg-gray-300 dark:bg-gray-800 h-6 w-40"></span>
+                            <span class="rounded-full bg-gray-300 dark:bg-gray-800 h-6 w-40"></span>
+                            <span class="rounded-full bg-gray-300 dark:bg-gray-800 h-6 w-40"></span>
                         </div>
                         <button
                             type="button"
                             disabled
-                            class="inline-flex items-center group gap-2 mt-6 bg-rose-600 disabled:cursor-not-allowed disabled:bg-rose-600/60 disabled:hover:bg-rose-600/60 text-white font-semibold text-lg px-6 py-2 rounded-full cursor-pointer hover:bg-rose-700 transition duration-300 ease-in-out shadow-md hover:shadow-lg"
+                            class="inline-flex items-center group gap-2 mt-6 bg-rose-600 disabled:cursor-not-allowed disabled:bg-rose-600/60 disabled:hover:bg-rose-600/60 dark:disabled:bg-rose-800/50 dark:disabled:hover:bg-rose-800/50 text-white dark:text-white/50 font-semibold text-lg px-6 py-2 rounded-full cursor-pointer hover:bg-rose-700 transition duration-300 ease-in-out shadow-md hover:shadow-lg"
                         >
                             Postularse
                             <x-icons.file-plus-2 class="size-5 transition-all duration-300 ease-in-out" />
@@ -99,11 +99,11 @@
                 </div>
             </div>
         @endif
-        <div class="p-4 bg-white rounded-lg shadow-xl hover:shadow-2xl lg:w-[22.5rem] border-2 border-rose-400 transition-all duration-200 ease-in-out">
-            <div class="overflow-hidden bg-rose-600 text-white rounded-lg px-3 py-3 border-2 border-gray-100">
+        <div class="p-4 bg-white dark:bg-gray-800 rounded-lg shadow-xl hover:shadow-2xl lg:w-[22.5rem] border-2 border-rose-400 dark:border-rose-800 transition-all duration-200 ease-in-out">
+            <div class="overflow-hidden bg-rose-600 text-white rounded-lg px-3 py-3 border-2 border-gray-100 dark:border-gray-700">
                 <h4 class="truncate font-medium text-lg text-center">Empleos recomendados</h4>
             </div>
-            <p class="mt-3 font-medium text-gray-600 px-1 text-justify">
+            <p class="mt-3 font-medium text-gray-600 dark:text-gray-400 px-1 text-justify">
                 En función de tu perfil, preferencias y actividad como solicitudes, búsquedas y contenido guardado.
             </p>
             <div class="overflow-hidden w-full xl:h-[calc(100vh-30rem)] mt-2">

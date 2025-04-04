@@ -20,7 +20,7 @@
     <div class="bg-gray-50 text-gray-800 dark:bg-gray-900 dark:text-white">
         <div class="relative min-h-screen flex flex-col">
             <!-- Barra de navegación -->
-            <header class="bg-white/80 backdrop-blur-sm sticky top-0 shadow-sm z-50">
+            <header class="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm sticky top-0 shadow-sm z-50">
                 <div class="flex items-center justify-between gap-2 py-4 lg:grid-cols-3 w-full max-w-7xl mx-auto px-6 lg:px-8">
                     <div class="flex items-center gap-2">
                         <img src="/jobFinderLogo.png" alt="Logo de la app" class="size-10 shadow-sm rounded-md">

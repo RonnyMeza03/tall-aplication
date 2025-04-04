@@ -99,14 +99,11 @@
                 </div>
             </div>
         @endif
-        <div class="p-4 bg-white dark:bg-gray-800 rounded-lg shadow-xl hover:shadow-2xl lg:w-[22.5rem] border-2 border-rose-400 dark:border-rose-800 transition-all duration-200 ease-in-out">
+        <div class="grid grid-cols-1 grid-rows-[auto_1fr_auto] overflow-hidden max-h-[calc(100vh-5rem)] p-4 bg-white dark:bg-gray-800 rounded-lg shadow-xl hover:shadow-2xl lg:w-[22.5rem] border-2 border-rose-400 dark:border-rose-800 transition-all duration-200 ease-in-out">
             <div class="overflow-hidden bg-rose-600 text-white rounded-lg px-3 py-3 border-2 border-gray-100 dark:border-gray-700">
                 <h4 class="truncate font-medium text-lg text-center">Empleos recomendados</h4>
             </div>
-            <p class="mt-3 font-medium text-gray-600 dark:text-gray-400 px-1 text-justify">
-                En función de tu perfil, preferencias y actividad como solicitudes, búsquedas y contenido guardado.
-            </p>
-            <div class="overflow-hidden w-full xl:h-[calc(100vh-30rem)] mt-2">
+            <div class="overflow-hidden w-full max-h-full mt-2">
                 <div class="divide-y divide-gray-200 dark:divide-gray-700 h-full overflow-y-auto">
                     @foreach ($jobOffers as $index => $jobOffer)
                         <div wire:key="job-{{ $jobOffer->id }}" 

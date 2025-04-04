@@ -107,41 +107,40 @@ class CompanyFactory extends Factory
               ];
 
               $topicLogos = [
-                'Desarrollo de Software' => 'tags_logos/code.png',
-                'Diseño y Creatividad' => 'tags_logos/brush.png',
-                'Marketing y Ventas' => 'tags_logos/circle-dollar-sign.png',
-                'Finanzas y Contabilidad' => 'tags_logos/wallet.png',
-                'Administración y Recursos Humanos' => 'tags_logos/person-standing.png',
-                'Salud y Medicina' => 'tags_logos/heart-pulse.png',
-                'Educación y Formación' => 'tags_logos/book-marked.png',
-                'Construcción e Ingeniería' => 'tags_logos/hard-hat.png',
-                'Logística y Transporte' => 'tags_logos/warehouse.png',
-                'Atención al Cliente' => 'tags_logos/headset.png',
-                'Legal y Consultoría' => 'tags_logos/scale.png',
-                'Ciencia e Investigación' => 'tags_logos/microscope.png',
-                'Frontend Developer' => 'tags_logos/laptop-minimal.png',
-                'Backend Developer' => 'tags_logos/server.png',
-                'Fullstack Developer' => 'tags_logos/computer.png',
-                'DevOps Engineer' => 'tags_logos/workflow.png',
-                'Data Scientist' => 'tags_logos/between-horizontal-end.png',
-                'Machine Learning Engineer' => 'tags_logos/bot.png',
-                'UX/UI Designer' => 'tags_logos/palette.png',
-                'QA Tester' => 'tags_logos/bug-play.png',
-                'Product Manager' => 'tags_logos/square-chart-gantt.png',
-                'Cybersecurity Analyst' => 'tags_logos/shield-half.png',
-                'Blockchain Developer' => 'tags_logos/link-2-off.png',
-                'Digital Marketing' => 'tags_logos/megaphone.png',
-                'SEO Specialist' => 'tags_logos/search.png',
-                'Community Manager' => 'tags_logos/user.png',
-                'Copywriter' => 'tags_logos/pen.png',
-                'Growth Hacker' => 'tags_logos/sword.png',
-                'Sales Representative' => 'tags_logos/handshake.png',
-
-                'Reclutador' => 'tags_logos/user-plus.png',
-                'Asistente Administrativo' => 'tags_logos/clipboard-pen.png',
-                'Chef' => 'tags_logos/chef-hat.png',
-                'Conductor' => 'tags_logos/car.png',
-                'Profesor' => 'tags_logos/book-type.png',
+                'Desarrollo de Software' => 'storage\tags_logos\code.png',
+                'Diseño y Creatividad' => 'storage\tags_logos\brush.png',
+                'Marketing y Ventas' => 'storage\tags_logos\circle-dollar-sign.png',
+                'Finanzas y Contabilidad' => 'storage\tags_logos\wallet.png',
+                'Administración y Recursos Humanos' => 'storage\tags_logos\person-standing.png',
+                'Salud y Medicina' => 'storage\tags_logos\heart-pulse.png',
+                'Educación y Formación' => 'storage\tags_logos\book-marked.png',
+                'Construcción e Ingeniería' => 'storage\tags_logos\hard-hat.png',
+                'Logística y Transporte' => 'storage\tags_logos\warehouse.png',
+                'Atención al Cliente' => 'storage\tags_logos\headset.png',
+                'Legal y Consultoría' => 'storage\tags_logos\scale.png',
+                'Ciencia e Investigación' => 'storage\tags_logos\microscope.png',
+                'Frontend Developer' => 'storage\tags_logos\laptop-minimal.png',
+                'Backend Developer' => 'storage\tags_logos\server.png',
+                'Fullstack Developer' => 'storage\tags_logos\computer.png',
+                'DevOps Engineer' => 'storage\tags_logos\workflow.png',
+                'Data Scientist' => 'storage\tags_logos\between-horizontal-end.png',
+                'Machine Learning Engineer' => 'storage\tags_logos\bot.png',
+                'UX/UI Designer' => 'storage\tags_logos\palette.png',
+                'QA Tester' => 'storage\tags_logos\bug-play.png',
+                'Product Manager' => 'storage\tags_logos\square-chart-gantt.png',
+                'Cybersecurity Analyst' => 'storage\tags_logos\shield-half.png',
+                'Blockchain Developer' => 'storage\tags_logos\link-2-off.png',
+                'Digital Marketing' => 'storage\tags_logos\megaphone.png',
+                'SEO Specialist' => 'storage\tags_logos\search.png',
+                'Community Manager' => 'storage\tags_logos\user.png',
+                'Copywriter' => 'storage\tags_logos\pen.png',
+                'Growth Hacker' => 'storage\tags_logos\sword.png',
+                'Sales Representative' => 'storage\tags_logos\handshake.png',
+                'Reclutador' => 'storage\tags_logos\user-plus.png',
+                'Asistente Administrativo' => 'storage\tags_logos\clipboard-pen.png',
+                'Chef' => 'storage\tags_logos\chef-hat.png',
+                'Conductor' => 'storage\tags_logos\car.png',
+                'Profesor' => 'storage\tags_logos\book-type.png',
               ];
 
             foreach ($topics as $topic) {
@@ -150,18 +149,11 @@ class CompanyFactory extends Factory
                     // Si no existe, copiar el logo al almacenamiento público
                     Storage::disk('public')->put($topicLogos[$topic], file_get_contents(public_path($topicLogos[$topic])));
                 }
-                // Crear la etiqueta en la base de datos
-                // y asignar el logo correspondiente
-                // Verificar si la etiqueta ya existe
+    
                 $existingTag = Tag::where('name', $topic)->first();
                 if ($existingTag) {
-                    // Si la etiqueta ya existe, continuar con la siguiente iteración
                     continue;
                 }
-                // Si la etiqueta no existe, crearla
-                // y asignar el logo correspondiente
-                // Crear la etiqueta en la base de datos
-                // y asignar el logo correspondiente
                 Tag::create([
                     'name' => $topic,
                     'logo' => $topicLogos[$topic] ?? null, // Asignar el logo si existe

@@ -1,55 +1,4 @@
-<?php
-
-use App\Models\User;
-use Illuminate\Auth\Events\Registered;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules;
-use Livewire\Attributes\Layout;
-use Livewire\Volt\Component;
-use App\Models\Country;
-
-new #[Layout('layouts.guest')] class extends Component {
-    public string $name = '';
-    public string $email = '';
-    public string $password = '';
-    public string $password_confirmation = '';
-    public string $country_id = '';
-    public $countries = [];
-
-    //Cargar todos los países
-    public function countries()
-    {
-        $countries = Country::all()->pluck('name', 'id');
-
-        return $countries;
-    }
-
-    /**
-     * Handle an incoming registration request.
-     */
-    public function register(): void
-    {
-        $validated = $this->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
-            'password' => ['required', 'string', 'confirmed', Rules\Password::defaults()],
-            'country_id' => ['required', 'exists:countries,id'],
-        ]);
-
-        $validated['password'] = Hash::make($validated['password']);
-
-        event(new Registered(($user = User::create($validated))));
-
-        $user->perfil()->create(['role' => 'user', 'phone' => '', 'url' => route('user.profile.show', $user->id)]);
-
-        Auth::login($user);
-
-        $this->redirect(route('user.empleos', absolute: false), navigate: true);
-    }
-}; ?>
-
-<div>
+<div class="p-4">
     <form wire:submit="register">
         <!-- Name -->
         <div>
@@ -73,9 +22,6 @@ new #[Layout('layouts.guest')] class extends Component {
                 class="block mt-1 w-full py-1.5 px-2 bg-gray-50 dark:border-gray-600 rounded-lg shadow-sm focus:ring focus:ring-indigo-300 focus:border-indigo-500 dark:bg-gray-800 dark:text-white"
                 name="country_id" required>
                 <option value="" disabled selected hidden>Selecciona un país</option>
-                @php
-                    $countries = $this->countries();
-                @endphp
                 @foreach ($countries as $id => $name)
                     <option value="{{ $id }}" class="dark:bg-gray-800 dark:text-white">{{ $name }}
                     </option>

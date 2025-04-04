@@ -1,31 +1,123 @@
-<div>
-    <!-- Main Content Area with Split View -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        <div class="flex flex-col lg:flex-row gap-6 h-[calc(110vh-150px)]">
-            <!-- Left Side - Job Listings -->
-            <div class="w-full lg:w-2/5 bg-white dark:bg-gray-800 rounded-lg shadow-sm overflow-hidden flex flex-col">
-                <div class="p-4 border-b border-gray-200 dark:border-gray-700">
-                    <h2 class="text-xl font-semibold text-gray-800 dark:text-white">
-                        Principales empleos que te recomendamos
-                    </h2>
-                    <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                        En función de tu perfil, preferencias y actividad como solicitudes, búsquedas y contenido guardado.
-                    </p>
-                    <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                        {{ count($jobOffers) }} resultados 
-                    </p>
+<div class="w-full mt-10 sm:mt-0 max-w-screen h-full px-4 min-h-[calc(100vh-4.5rem)] grid grid-cols-1 justify-center items-center">
+    <div class="w-full mx-auto max-w-[100rem] grid grid-cols-1 lg:grid-cols-[auto_1fr] gap-y-4 gap-x-40">
+        @if($selectedJob)
+            <div class="grid grid-cols-1 gap-x-10 gap-y-3 lg:grid-cols-[35rem_1fr] items-center">
+                <div class="w-full h-50 lg:h-[37.5rem] rounded-lg shadow-md hover:shadow-xl object-cover transition-all duration-300 ease-in-out overflow-hidden group">
+                    <img 
+                        src="https://vault-html-tailwind.vercel.app/images/online-2.png" 
+                        alt="Imagen de empleo"
+                        class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-600 ease-in-out"
+                    >
                 </div>
-
-                <div class="divide-y divide-gray-200 dark:divide-gray-700 overflow-y-auto">
+                <div class="grid grid-cols-1 items-center">
+                    <div class="block">
+                        @if($selectedJob->company)
+                            <span class="border-l-3 pl-2 border-rose-600 text-2xl text-rose-800 font-semibold">
+                                {{ $selectedJob->company->name }}
+                            </span>
+                        @endif
+                        
+                        <h2 class="text-5xl leading-14 sm:leading-20 sm:text-7xl font-bold text-gray-900">
+                            {{ $selectedJob->jobTitle }}
+                        </h2>
+                        <h4 class="text-lg text-gray-800 mt-8 sm:max-w-[70%] font-medium line-clamp-3">
+                            @if($selectedJob->description)
+                                {!! nl2br(e($selectedJob->description)) !!}
+                            @else
+                                <p>No hay descripción disponible para este empleo.</p>
+                            @endif
+                        </h4>
+                        <p class="mt-2 text-gray-600 text-sm">
+                            @if($selectedJob->country)
+                                {{ $selectedJob->country->name }}
+                            @endif
+                            @if($selectedJob->jobType)
+                                · {{ $selectedJob->jobType }}
+                            @endif
+                            @if($selectedJob->created_at)
+                                · Publicado {{ $selectedJob->created_at->diffForHumans() }}
+                            @endif
+                        </p>
+                        @if(count($selectedJob->tags) > 0)
+                            <div class="flex items-start flex-wrap gap-2 mt-6">
+                                @foreach ($selectedJob->tags as $tag)
+                                    <span class="rounded-full bg-rose-200 text-rose-900 font-medium px-2 py-1 text-xs">
+                                        {{ $tag->name }}
+                                    </span>
+                                @endforeach
+                            </div>
+                        @endif
+                        <div class="mt-6">
+                            @if ($userApplies->contains('job_offer_id', $selectedJob->id))
+                                <button class="inline-flex items-center px-4 py-2 bg-gray-400 border border-transparent rounded-md font-semibold text-sm text-white cursor-not-allowed">
+                                    Ya te has postulado
+                                </button>
+                            @else
+                                <button
+                                    type="button"
+                                    wire:click="openModal"
+                                    class="inline-flex items-center group gap-2 mt-6 bg-rose-600 text-white font-semibold text-lg px-6 py-2 rounded-full cursor-pointer hover:bg-rose-700 transition duration-300 ease-in-out shadow-md hover:shadow-lg"
+                                >
+                                    Postularse
+                                    <x-icons.file-plus-2 class="size-5 group-hover:rotate-45 transition-all duration-300 ease-in-out" />
+                                </button>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            </div>                    
+        @else
+            <div class="grid grid-cols-1 gap-x-10 gap-y-3 lg:grid-cols-[35rem_1fr]">
+                <div class="w-full h-[37.5rem] bg-gray-300 flex items-center justify-center rounded-lg shadow-md hover:shadow-xl object-cover transition-all duration-300 ease-in-out overflow-hidden group">
+                    <x-icons.image class="size-50 stroke-1 text-gray-400" />
+                </div>
+                <div class="grid grid-cols-1 items-center">
+                    <div class="block">
+                        <div class="flex items-center gap-2">
+                            <div class="h-8 border-l-3 border-gray-400 text-2xl"></div>
+                            <div class="h-8 w-60 bg-gray-300 rounded-md"></div>
+                        </div>
+                        <div class="h-12 w-96 bg-gray-300 rounded-md mt-6"></div>
+                        <div class="space-y-2 mt-8">
+                            <div class="h-5 w-[32rem] bg-gray-300 rounded-md"></div>
+                            <div class="h-5 w-[24rem] bg-gray-300 rounded-md"></div>
+                        </div>
+                        <div class="flex items-start flex-wrap gap-2 mt-6">
+                            <span class="rounded-full bg-gray-300 h-6 w-40"></span>
+                            <span class="rounded-full bg-gray-300 h-6 w-40"></span>
+                            <span class="rounded-full bg-gray-300 h-6 w-40"></span>
+                        </div>
+                        <button
+                            type="button"
+                            disabled
+                            class="inline-flex items-center group gap-2 mt-6 bg-rose-600 disabled:cursor-not-allowed disabled:bg-rose-600/60 disabled:hover:bg-rose-600/60 text-white font-semibold text-lg px-6 py-2 rounded-full cursor-pointer hover:bg-rose-700 transition duration-300 ease-in-out shadow-md hover:shadow-lg"
+                        >
+                            Postularse
+                            <x-icons.file-plus-2 class="size-5 transition-all duration-300 ease-in-out" />
+                        </button>
+                    </div>
+                </div>
+            </div>
+        @endif
+        <div class="p-4 bg-white rounded-lg shadow-xl hover:shadow-2xl lg:w-[22.5rem] border-2 border-rose-400 transition-all duration-200 ease-in-out">
+            <div class="overflow-hidden bg-rose-600 text-white rounded-lg px-3 py-3 border-2 border-gray-100">
+                <h4 class="truncate font-medium text-lg text-center">Empleos recomendados</h4>
+            </div>
+            <p class="mt-3 font-medium text-gray-600 px-1 text-justify">
+                En función de tu perfil, preferencias y actividad como solicitudes, búsquedas y contenido guardado.
+            </p>
+            <div class="overflow-hidden w-full xl:h-[calc(100vh-30rem)] mt-2">
+                <div class="divide-y divide-gray-200 dark:divide-gray-700 h-full overflow-y-auto">
                     @foreach ($jobOffers as $index => $jobOffer)
                         <div wire:key="job-{{ $jobOffer->id }}" 
-                             class="p-4 hover:bg-gray-50 dark:hover:bg-gray-700 transition cursor-pointer
-                             @if($selectedJobId == $jobOffer->id) bg-blue-50 dark:bg-blue-900 border-l-4 border-blue-500 @endif"
-                             wire:click="loadJobDetails({{ $jobOffer->id }})">
+                            class="p-4 dark:hover:bg-gray-700 transition cursor-pointer
+                            @if($selectedJobId == $jobOffer->id) bg-rose-100 hover:bg-rose-100 dark:bg-rose-900 border-l-4 border-l-rose-500 @else hover:bg-rose-50 @endif"
+                            wire:click="loadJobDetails({{ $jobOffer->id }}); $nextTick(() => { window.scrollTo({ top: 0, behavior: 'smooth' }); })"
+                        >
                             <div class="flex items-start">
                                 <div class="flex-shrink-0 mr-4">
                                     @if($jobOffer->company && $jobOffer->company->logo)
-                                        <img src="{{asset('storage/'. $jobOffer->company->logo)}}" alt="{{ $jobOffer->company->name }}" class="h-12 w-12 object-cover rounded">
+                                        <img src="{{ asset('storage/'. $jobOffer->company->logo) }}" alt="{{ $jobOffer->company->name }}" class="h-12 w-12 object-cover rounded">
                                     @else
                                         <div class="h-12 w-12 bg-gray-200 dark:bg-gray-700 rounded flex items-center justify-center">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -47,13 +139,6 @@
                                             · {{ $jobOffer->mode }}
                                         @endif
                                     </p>
-                                    @if(count($jobOffer->tags) > 0)
-                                        @foreach ($jobOffer->tags as $tag)
-                                            <span class="inline-flex items-center px-2 py-1 text-xs font-medium text-gray-800 dark:text-gray-200 bg-gray-200 dark:bg-gray-700 rounded-full mr-2">
-                                                {{ $tag->name }}
-                                            </span>
-                                        @endforeach
-                                    @endif
                                     <div class="mt-2 flex items-center text-xs text-gray-500 dark:text-gray-400">
                                         <span>Publicado {{ $jobOffer->created_at->diffForHumans() }}</span>
                                         @if($jobOffer->applications_count)
@@ -61,231 +146,61 @@
                                         @endif
                                     </div>
                                 </div>
-                                @if($selectedJobId != $jobOffer->id)
-                                    <button class="ml-2 text-gray-400 hover:text-gray-500 dark:hover:text-gray-300">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                                        </svg>
-                                    </button>
-                                @endif
                             </div>
                         </div>
                     @endforeach
                 </div>
-                
-                <!-- Pagination Controls -->
-                <div class="px-4 py-3 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
-                    <div class="flex items-center justify-between">
-                        <div class="flex-1 flex justify-between sm:hidden">
-                            <button wire:click="previousPage" 
-                                class="relative inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 text-sm font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700"
-                                {{ $currentPage <= 1 ? 'disabled' : '' }}>
-                                Anterior
-                            </button>
-                            <button wire:click="nextPage" 
-                                class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 text-sm font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700"
-                                {{ $currentPage >= $totalPages ? 'disabled' : '' }}>
-                                Siguiente
-                            </button>
+            </div>
+            <div class="px-4 py-3 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
+                <div class="flex items-center justify-between">
+                    <div class="flex-1 flex justify-between sm:hidden">
+                        <button wire:click="previousPage" 
+                            class="relative inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 text-sm font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700"
+                            {{ $currentPage <= 1 ? 'disabled' : '' }}>
+                            Anterior
+                        </button>
+                        <button wire:click="nextPage" 
+                            class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 text-sm font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700"
+                            {{ $currentPage >= $totalPages ? 'disabled' : '' }}>
+                            Siguiente
+                        </button>
+                    </div>
+                    <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+                        <div>
+                            <p class="text-sm text-gray-700 dark:text-gray-300">
+                                Mostrando página <span class="font-medium">{{ $currentPage }}</span> de <span class="font-medium">{{ $totalPages }}</span>
+                            </p>
                         </div>
-                        <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
-                            <div>
-                                <p class="text-sm text-gray-700 dark:text-gray-300">
-                                    Mostrando página <span class="font-medium">{{ $currentPage }}</span> de <span class="font-medium">{{ $totalPages }}</span>
-                                </p>
-                            </div>
-                            <div>
-                                <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
-                                    <button wire:click="previousPage"
-                                        class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700"
-                                        {{ $currentPage <= 1 ? 'disabled' : '' }}>
-                                        <span class="sr-only">Anterior</span>
-                                        <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                            <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
-                                        </svg>
+                        <div>
+                            <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                                <button wire:click="previousPage"
+                                    class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700"
+                                    {{ $currentPage <= 1 ? 'disabled' : '' }}>
+                                    <span class="sr-only">Anterior</span>
+                                    <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                        <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                    </svg>
+                                </button>
+                                
+                                @for ($i = 1; $i <= $totalPages; $i++)
+                                    <button wire:click="goToPage({{ $i }})"
+                                        class="relative inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-sm font-medium {{ $currentPage == $i ? 'text-rose-600 dark:text-rose-400 z-10 border-rose-500 dark:border-rose-400' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700' }}">
+                                        {{ $i }}
                                     </button>
-                                    
-                                    @for ($i = 1; $i <= $totalPages; $i++)
-                                        <button wire:click="goToPage({{ $i }})"
-                                            class="relative inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-sm font-medium {{ $currentPage == $i ? 'text-blue-600 dark:text-blue-400 z-10 border-blue-500 dark:border-blue-400' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700' }}">
-                                            {{ $i }}
-                                        </button>
-                                    @endfor
+                                @endfor
 
-                                    <button wire:click="nextPage"
-                                        class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700"
-                                        {{ $currentPage >= $totalPages ? 'disabled' : '' }}>
-                                        <span class="sr-only">Siguiente</span>
-                                        <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
-                                        </svg>
-                                    </button>
-                                </nav>
-                            </div>
+                                <button wire:click="nextPage"
+                                    class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700"
+                                    {{ $currentPage >= $totalPages ? 'disabled' : '' }}>
+                                    <span class="sr-only">Siguiente</span>
+                                    <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                        <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                                    </svg>
+                                </button>
+                            </nav>
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <!-- Right Side - Job Details -->
-            <div class="w-full lg:w-3/5">
-                @if($selectedJob)
-                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm overflow-y-auto h-[calc(110vh-150px)]">
-                        <!-- Job Header -->
-                        <div class="p-6 border-b border-gray-200 dark:border-gray-700">
-                            <div class="flex items-start justify-between">
-                                <div>
-                                    <h1 class="text-2xl font-bold text-gray-900 dark:text-white">{{ $selectedJob->jobTitle }}</h1>
-                                    <div class="mt-2">
-                                        @if($selectedJob->company)
-                                            <p class="text-lg text-gray-700 dark:text-gray-300">{{ $selectedJob->company->name }}</p>
-                                        @endif
-                                        <p class="text-gray-600 dark:text-gray-400">
-                                            @if($selectedJob->country)
-                                                {{ $selectedJob->country->name }}
-                                            @endif
-                                            @if($selectedJob->jobType)
-                                                · {{ $selectedJob->jobType }}
-                                            @endif
-                                            @if($selectedJob->created_at)
-                                                · Publicado {{ $selectedJob->created_at->diffForHumans() }}
-                                            @endif
-                                        </p>
-                                    </div>
-                                </div>
-                                <div class="flex space-x-2">
-                                    <button class="p-2 text-gray-400 hover:text-gray-500 dark:hover:text-gray-300 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
-                                        </svg>
-                                    </button>
-                                    <button class="p-2 text-gray-400 hover:text-gray-500 dark:hover:text-gray-300 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
-                                        </svg>
-                                    </button>
-                                </div>
-                            </div>
-                            
-                            <div class="mt-6 flex flex-wrap gap-2">
-                                <div class="flex items-center text-sm text-gray-600 dark:text-gray-400">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A10.5 10.5 0 0112 4.5 10.5 10.5 0 012.95 13.255a1 1 0 00-.895.553 1 1 0 00.895 1.447A10.5 10.5 0 0112 19.5a10.5 10.5 0 019.05-4.245 1 1 0 00.895-1.447 1 1 0 00-.895-.553z" />
-                                    </svg>
-                                    @if($selectedJob->jobType)
-                                        <span>{{ $selectedJob->mode }}</span>
-                                    @else
-                                        <span>Tiempo completo</span>
-                                    @endif
-                                </div>
-                                
-                                @if($selectedJob->minSalary)
-                                    <div class="flex items-center text-sm text-gray-600 dark:text-gray-400">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                        </svg>
-                                        <span>{{ $selectedJob->minSalary }} @if($selectedJob->maxSalary) - {{ $selectedJob->maxSalary }} @endif</span>
-                                    </div>
-                                @endif
-
-                                <div class="flex items-center text-sm text-gray-600 dark:text-gray-400">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                                    </svg>
-                                    <span>
-                                        @if($selectedJob->country)
-                                            {{ $selectedJob->country->name }}
-                                        @else
-                                            Ubicación no especificada
-                                        @endif
-                                    </span>
-                                </div>
-
-                                @if(count($selectedJob->tags) > 0)
-                                    @foreach ($selectedJob->tags as $tag)
-                                        <span class="inline-flex items-center px-2 py-1 text-xs font-medium text-gray-800 dark:text-gray-200 bg-gray-200 dark:bg-gray-700 rounded-full mr-2">
-                                            {{ $tag->name }}
-                                        </span>
-                                    @endforeach
-                                @endif
-                            </div>
-                            
-                            <div class="mt-6">
-                                @if ($userApplies->contains('job_offer_id', $selectedJob->id))
-                                    <button class="inline-flex items-center px-4 py-2 bg-gray-400 border border-transparent rounded-md font-semibold text-sm text-white cursor-not-allowed">
-                                        Ya te has postulado
-                                    </button>
-                                @else
-                                    <button wire:click="openModal" class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-sm text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                                        Postularse
-                                    </button>
-                                @endif
-                                <button class="ml-3 inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md font-semibold text-sm text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                                    Guardar
-                                </button>
-                            </div>
-                        </div>
-                        
-                        <!-- Job Details -->
-                        <div class="p-6">
-                            <div class="prose dark:prose-invert max-w-none">
-                                <h2 class="text-xl font-semibold mb-4 dark:text-white">Descripción del empleo</h2>
-                                <div class="text-gray-700 dark:text-gray-300">
-                                    @if($selectedJob->description)
-                                        {!! nl2br(e($selectedJob->description)) !!}
-                                    @else
-                                        <p>No hay descripción disponible para este empleo.</p>
-                                    @endif
-                                </div>
-                                
-                                @if($selectedJob->requirements)
-                                    <h2 class="text-xl font-semibold mt-8 mb-4">Requisitos</h2>
-                                    <div class="text-gray-700 dark:text-gray-300">
-                                        {!! nl2br(e($selectedJob->requirements)) !!}
-                                    </div>
-                                @endif
-                                
-                                @if($selectedJob->benefits)
-                                    <h2 class="text-xl font-semibold mt-8 mb-4">Beneficios</h2>
-                                    <div class="text-gray-700 dark:text-gray-300">
-                                        {!! nl2br(e($selectedJob->benefits)) !!}
-                                    </div>
-                                @endif
-                                
-                                <h2 class="text-xl font-semibold mt-8 mb-4 dark:text-white">Acerca de la empresa</h2>
-                                <div class="flex items-start">
-                                    <div class="flex-shrink-0 mr-4">
-                                        @if($selectedJob->company && $selectedJob->company->logo)
-                                            <img src="{{ asset('storage/'. $selectedJob->company->logo) }}" alt="{{ $selectedJob->company->name }}" class="h-16 w-16 object-cover rounded">
-                                        @else
-                                            <div class="h-16 w-16 bg-gray-200 dark:bg-gray-700 rounded flex items-center justify-center">
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                                                </svg>
-                                            </div>
-                                        @endif
-                                    </div>
-                                    <div>
-                                        @if($selectedJob->company)
-                                            <h3 class="font-medium text-gray-900 dark:text-white">{{ $selectedJob->company->name }}</h3>
-                                            <p class="text-gray-600 dark:text-gray-400">{{ $selectedJob->company->description ?? 'Sin descripción disponible' }}</p>
-                                        @else
-                                            <p class="text-gray-600 dark:text-gray-400">Información de la empresa no disponible</p>
-                                        @endif
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                @else
-                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-8 text-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                        <p class="mt-4 text-gray-600 dark:text-gray-400">Selecciona una oferta de trabajo para ver los detalles</p>
-                    </div>
-                @endif
             </div>
         </div>
     </div>

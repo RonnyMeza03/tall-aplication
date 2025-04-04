@@ -16,6 +16,9 @@ class Dashboard extends Component
     public $totalJobOffersByExpiredThisWeek = 0;
     public $jobOffersExpiredThisWeek = [];
     public $barchartData = [];
+    public $currentPage = 1;
+    public $perPage = 10;
+    public $totalPages = 0;
 
     public function mount()
     {
@@ -40,6 +43,37 @@ class Dashboard extends Component
         $this->barchartData = $this->loadBarChartData();
 
         $this->jobOffersExpiredThisWeek = $this->getExpiringOffersThisWeek();
+    }
+
+    public function nextPage()
+    {
+        $this->currentPage++;
+        $this->loadJobs();
+    }
+    public function previousPage()
+    {
+        $this->currentPage--;
+        $this->loadJobs();
+    }
+    public function loadJobs()
+    {
+        $this->totalPages = Auth::user()
+            ->company()
+            ->join('job_offers', 'companies.id', '=', 'job_offers.company_id')
+            ->count('job_offers.id');
+
+        $this->jobOffersExpiredThisWeek = Auth::user()
+            ->company()
+            ->join('job_offers', 'companies.id', '=', 'job_offers.company_id')
+            ->where('job_offers.expires_at', '<=', now()->addDays(7))
+            ->paginate($this->perPage, ['*'], 'page', $this->currentPage);
+    }
+    public function goToPage($page)
+    {
+        if ($page >= 1 && $page <= $this->totalPages) {
+            $this->currentPage = $page;
+            $this->loadJobs();
+        }
     }
 
     private function getExpiringOffersThisWeek()
@@ -67,6 +101,7 @@ class Dashboard extends Component
     private function loadBarChartData()
     {
         $companyIds = Auth::user()->company()->pluck('companies.id');
+
 
         $topJobOffers = JobOffer::whereIn('company_id', $companyIds)
             ->select('job_offers.id', 'job_offers.jobTitle')

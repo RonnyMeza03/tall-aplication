@@ -124,6 +124,19 @@
                     </button>
                 </div>
                 
+                <!-- Mensajes de sesión -->
+                @if (session()->has('error'))
+                    <div class="mb-4 text-sm text-red-600">
+                        {{ session('error') }}
+                    </div>
+                @endif
+
+                @if (session()->has('message'))
+                    <div class="mb-4 text-sm text-green-600">
+                        {{ session('message') }}
+                    </div>
+                @endif
+                
                 <form wire:submit.prevent="inviteUser" class="space-y-4">
                     <!-- Email del usuario -->
                     <div>

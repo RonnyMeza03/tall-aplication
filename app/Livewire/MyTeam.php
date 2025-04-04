@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
+use function Laravel\Prompts\alert;
+
 class MyTeam extends Component
 {
     public $email = '';
@@ -20,6 +22,12 @@ class MyTeam extends Component
         ]);
 
         $user = User::where('email', $this->email)->first();
+
+        if (!$user) {
+            // Mensaje de error
+            session()->flash('error', 'El usuario no existe');
+            return;
+        }
 
         $user->company()->attach($this->selectedCompanyId);
 

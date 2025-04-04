@@ -41,9 +41,10 @@
                             Volver
                         </a>
 
-                        <a href="{{ route('user-applies.index', ['company' => $companyId, 'offer' => $offer]) }}" class="inline-flex items-center px-4 py-2 bg-gray-200 dark:bg-gray-700 border border-transparent rounded-md font-semibold text-xs text-gray-800 dark:text-gray-200 uppercase tracking-widest hover:bg-gray-300 dark:hover:bg-gray-600 active:bg-gray-400 dark:active:bg-gray-500 focus:outline-none focus:border-gray-400 dark:focus:border-gray-500 focus:ring ring-gray-300 disabled:opacity-25 transition">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+                        <a href="{{ route('user-applies.index', ['company' => $companyId, 'offer' => $offer]) }}" class="inline-flex items-center px-4 py-2 bg-blue-500 dark:bg-blue-700 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-600 dark:hover:bg-blue-600 active:bg-blue-700 dark:active:bg-blue-800 focus:outline-none focus:border-blue-800 focus:ring ring-blue-300 disabled:opacity-25 transition">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1 text-white" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M9 2a1 1 0 00-1 1v12a1 1 0 001 1h6a1 1 0 001-1V7.414a1 1 0 00-.293-.707l-5-5A1 1 0 0010.586 2H9zm1 2.414L14.586 8H11a1 1 0 01-1-1V4.414z" />
+                                <path d="M3 8a1 1 0 011-1h4a1 1 0 010 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h4a1 1 0 010 2H4a1 1 0 01-1-1zm1 3a1 1 0 100 2h10a1 1 0 100-2H4z" />
                             </svg>
                             Ver candidaturas
                         </a>
@@ -62,36 +63,6 @@
                                     <p class="text-gray-600 dark:text-gray-300">{{ $offer->description }}</p>
                                 </div>
                             </div>
-
-                            <!-- Sección de requisitos (esto podría ser un campo adicional en tu modelo) -->
-                            @if(isset($offer->requirements))
-                            <div class="bg-white dark:bg-gray-700 rounded-lg shadow p-6">
-                                <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4">Requisitos</h3>
-                                <div class="prose max-w-none dark:prose-invert prose-gray prose-sm">
-                                    <p class="text-gray-600 dark:text-gray-300">{{ $offer->requirements }}</p>
-                                </div>
-                            </div>
-                            @endif
-
-                            <!-- Sección de beneficios (esto podría ser un campo adicional en tu modelo) -->
-                            @if(isset($offer->benefits))
-                            <div class="bg-white dark:bg-gray-700 rounded-lg shadow p-6">
-                                <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4">Beneficios</h3>
-                                <div class="prose max-w-none dark:prose-invert prose-gray prose-sm">
-                                    <p class="text-gray-600 dark:text-gray-300">{{ $offer->benefits }}</p>
-                                </div>
-                            </div>
-                            @endif
-
-                            <!-- Sección de aplicar/solicitar (cómo aplicar al puesto) -->
-                            @if(isset($offer->howToApply))
-                            <div class="bg-white dark:bg-gray-700 rounded-lg shadow p-6">
-                                <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4">Cómo aplicar</h3>
-                                <div class="prose max-w-none dark:prose-invert prose-gray prose-sm">
-                                    <p class="text-gray-600 dark:text-gray-300">{{ $offer->howToApply }}</p>
-                                </div>
-                            </div>
-                            @endif
                         </div>
 
                         <!-- Sidebar con información resumida -->
@@ -162,16 +133,6 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-
-                            <!-- Botón de aplicar (si estás gestionando candidaturas) -->
-                            <div class="bg-white dark:bg-gray-700 rounded-lg shadow p-4">
-                                {{-- <a href="{{ route('job-applications.create', $offer->id) }}" class="w-full flex items-center justify-center px-4 py-2 bg-green-600 border border-transparent rounded-md font-semibold text-sm text-white hover:bg-green-700 active:bg-green-800 focus:outline-none focus:border-green-800 focus:ring ring-green-300 disabled:opacity-25 transition">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-                                    </svg>
-                                    Ver candidaturas
-                                </a> --}}
                             </div>
 
                             <!-- Estadísticas (esto sería información adicional) -->

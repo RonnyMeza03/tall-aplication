@@ -1,8 +1,8 @@
 <div class="w-full mt-10 sm:mt-0 max-w-screen h-full px-4 min-h-[calc(100vh-4.5rem)] grid grid-cols-1 justify-center items-center">
     <div class="w-full mx-auto max-w-[100rem] grid grid-cols-1 lg:grid-cols-[auto_1fr] gap-y-4 gap-x-40">
         @if($selectedJob)
-            <div class="grid grid-cols-1 gap-x-10 gap-y-3 lg:grid-cols-[35rem_1fr] items-center">
-                <div class="w-full h-50 lg:h-[37.5rem] rounded-lg shadow-md hover:shadow-xl object-cover transition-all duration-300 ease-in-out overflow-hidden group">
+            <div class="grid grid-cols-1 gap-x-10 gap-y-3 lg:grid-cols-[1fr_auto] items-center">
+                <div class="w-full h-50 lg:w-[20rem] xl:w-[27.5rem] 2xl:w-[35rem] bg-red-300 lg:h-[27rem] 2xl:h-[37.5rem] rounded-lg shadow-md hover:shadow-xl object-cover transition-all duration-300 ease-in-out overflow-hidden group">
                     <img 
                         src="https://vault-html-tailwind.vercel.app/images/online-2.png" 
                         alt="Imagen de empleo"
@@ -17,7 +17,7 @@
                             </span>
                         @endif
                         
-                        <h2 class="text-5xl leading-14 sm:leading-20 sm:text-7xl font-bold text-gray-900 dark:text-white">
+                        <h2 class="text-5xl leading-14 2xl:leading-20 2xl:text-7xl font-bold text-gray-900 dark:text-white">
                             {{ $selectedJob->jobTitle }}
                         </h2>
                         <h4 class="text-lg text-gray-800 dark:text-gray-400 mt-8 sm:max-w-[70%] font-medium line-clamp-3">

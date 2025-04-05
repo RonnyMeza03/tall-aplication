@@ -35,7 +35,7 @@
                 @foreach ($jobs->take(2) as $job)
                     <div class="flex items-center space-x-2">
                         <img 
-                            src="{{ $job->company_logo }}" 
+                            src="{{ asset('storage/'. $job->company_logo) }}" 
                             alt="Imagen de Empresa"
                             class="size-12 shrink-0 rounded-sm"
                         >

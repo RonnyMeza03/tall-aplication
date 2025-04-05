@@ -101,8 +101,8 @@ class JobOfferForm extends Component
 
     public function render()
     {
-        $countries = Country::all()->pluck('name', 'id');
-        $tags = Tag::all()->pluck('name', 'id');
+        $countries = Country::orderBy('name')->pluck('name', 'id');
+        $tags = Tag::orderBy('name')->pluck('name', 'id');
         return view('livewire.job-offer-form')->with(['layout' => $this->layout, 'countries' => $countries, 'tags' => $tags]);
     }
 }

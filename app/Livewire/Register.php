@@ -22,7 +22,7 @@ class Register extends Component
 
     protected function countries()
     {
-        $countries = Country::all()->pluck('name', 'id');
+        $countries = Country::orderBy('name')->pluck('name', 'id');
 
         return $countries;
     }

@@ -11,7 +11,9 @@
             <div class="bg-white border border-gray-200 rounded-lg p-6 space-y-4 shadow-xs hover:shadow-lg transition duration-300 ease-in-out dark:bg-gray-800 dark:border-gray-700 dark:shadow-none dark:hover:shadow-none">
                 <livewire:profile.url-public-profile-card />
                 <div class="h-[1px] bg-gray-200 dark:bg-gray-700"></div>
-                <livewire:profile.logout-profile-card />
+                @if (!$user)
+                    <livewire:profile.logout-profile-card />
+                @endif
             </div>
             <x-job-offers-cards :jobs="$jobs" />
         </div>

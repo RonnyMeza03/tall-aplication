@@ -100,11 +100,18 @@
                                 class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-300">
                                 <div
                                     class="w-12 h-12 bg-{{ $category['color'] }}-100 dark:bg-{{ $category['color'] }}-900 rounded-lg flex items-center justify-center mb-4">
-                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                        class="h-6 w-6 text-{{ $category['color'] }}-600 dark:text-{{ $category['color'] }}-400"
-                                        fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <img src="{{asset('storage/'. $category['logo'])}}" alt="">
-                                    </svg>
+                                    @if ($category['logo'])
+                                        <img class="h-6 w-6" 
+                                             src="{{ asset('storage'. $category['logo']) }}" 
+                                             alt="{{ $category['name'] }}">
+                                    @else
+                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                            class="h-6 w-6 text-{{ $category['color'] }}-600 dark:text-{{ $category['color'] }}-400"
+                                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <!-- Default icon if no logo -->
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                                        </svg>
+                                    @endif
                                 </div>
                                 <h4 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">
                                     {{ $category['name'] }}</h4>

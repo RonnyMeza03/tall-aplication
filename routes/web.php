@@ -16,6 +16,10 @@ Route::get('dashboard', Dashboard::class)
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
+Route::view('test', 'test')
+    ->middleware(['auth'])
+    ->name('test');
+
 Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');

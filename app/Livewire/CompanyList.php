@@ -11,6 +11,7 @@ class CompanyList extends Component
 
     public $layout = 'layouts.app'; // apunta a resources/views/layouts/app.blade.php
 
+    //wfwefwefwef
     public function render()
     {
         $userCompanies = Auth::user()->company;
